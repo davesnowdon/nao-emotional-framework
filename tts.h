@@ -1,5 +1,5 @@
-#ifndef EMOTION_H
-# define EMOTION_H
+#ifndef EMOTIONAL_TTS_H
+# define EMOTIONAL_TTS_H
 
 # include <iostream>
 # include <alcommon/almodule.h>
@@ -15,13 +15,13 @@ namespace AL
  * This class inherits AL::ALModule. This allows it to bind methods
  * and be run as a remote executable within NAOqi
  */
-class Emotion : public AL::ALModule
+class EmotionalTextToSpeech : public AL::ALModule
 {
 public:
-  Emotion(boost::shared_ptr<AL::ALBroker> broker,
+  EmotionalTextToSpeech(boost::shared_ptr<AL::ALBroker> broker,
            const std::string &name);
 
-  virtual ~Emotion();
+  virtual ~EmotionalTextToSpeech();
 
   /**
    * Overloading ALModule::init().
@@ -38,4 +38,4 @@ public:
   // Function which returns true
   bool returnTrue();
 };
-#endif // EMOTION_H
+#endif // EMOTIONAL_TTS_H

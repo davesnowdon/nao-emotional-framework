@@ -1,9 +1,9 @@
-#include "emotion.h"
+#include "leds.h"
 
 #include <iostream>
 #include <alcommon/albroker.h>
 
-Emotion::Emotion(boost::shared_ptr<AL::ALBroker> broker,
+EmotionalLeds::EmotionalLeds(boost::shared_ptr<AL::ALBroker> broker,
                    const std::string& name)
   : AL::ALModule(broker, name)
 {
@@ -20,7 +20,7 @@ Emotion::Emotion(boost::shared_ptr<AL::ALBroker> broker,
    * BIND_METHOD(<method_reference>);
    */
   functionName("printHello", getName(), "Print hello to the world");
-  BIND_METHOD(Emotion::printHello);
+  BIND_METHOD(EmotionalLeds::printHello);
 
   /**
    * addParam(<attribut_name>, <attribut_descrption>);
@@ -29,7 +29,7 @@ Emotion::Emotion(boost::shared_ptr<AL::ALBroker> broker,
    */
   functionName("printWord", getName(), "Print a given word.");
   addParam("word", "The word to be print.");
-  BIND_METHOD(Emotion::printWord);
+  BIND_METHOD(EmotionalLeds::printWord);
 
   /**
    * setReturn(<return_name>, <return_description>);
@@ -38,7 +38,7 @@ Emotion::Emotion(boost::shared_ptr<AL::ALBroker> broker,
    */
   functionName("returnTrue", getName(), "Just return true");
   setReturn("boolean", "return true");
-  BIND_METHOD(Emotion::returnTrue);
+  BIND_METHOD(EmotionalLeds::returnTrue);
 
   // If you had other methods, you could bind them here...
   /**
@@ -47,11 +47,11 @@ Emotion::Emotion(boost::shared_ptr<AL::ALBroker> broker,
    */
 }
 
-Emotion::~Emotion()
+EmotionalLeds::~EmotionalLeds()
 {
 }
 
-void Emotion::init()
+void EmotionalLeds::init()
 {
   /**
    * Init is called just after construction.
@@ -61,17 +61,17 @@ void Emotion::init()
 }
 
 
-void Emotion::printHello()
+void EmotionalLeds::printHello()
 {
   std::cout << "Hello!" << std::endl;
 }
 
-void Emotion::printWord(const std::string &word)
+void EmotionalLeds::printWord(const std::string &word)
 {
   std::cout << word << std::endl;
 }
 
-bool Emotion::returnTrue()
+bool EmotionalLeds::returnTrue()
 {
   return true;
 }
