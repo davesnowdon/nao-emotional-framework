@@ -29,13 +29,39 @@ public:
    */
   virtual void init();
 
-  // After that you may add all your bind method.
+    void createGroup(const std::string& groupName, const std::vector<std::string>& ledNames);
 
-  // Function which prints "Hello!" on standard output
-  void printHello();
-  // Function which prints the word given on parameters
-  void printWord(const std::string &word);
-  // Function which returns true
-  bool returnTrue();
+    void earLedsSetAngle(const int& degrees, const float& duration, const bool& leaveOnAtEnd);
+
+    void fade(const std::string& name, const float& intensity, const float& duration);
+
+    void fadeListRGB(const std::string& name, const AL::ALValue& rgbList, const AL::ALValue& timeList);
+
+    void fadeRGB(const std::string& name, const int& rgb, const float& duration);
+
+    AL::ALValue getIntensity(const std::string& name);
+
+    std::vector<std::string> listGroup(const std::string& groupName);
+
+    std::vector<std::string> listGroups();
+
+    std::vector<std::string> listLED(const std::string& name);
+
+    std::vector<std::string> listLEDs();
+
+    void off(const std::string& name);
+
+    void on(const std::string& name);
+
+    void randomEyes(const float& duration);
+
+    void rasta(const float& duration);
+
+    void reset(const std::string& name);
+
+    void rotateEyes(const int& rgb, const float& timeForRotation, const float& totalDuration);
+
+    void setIntensity(const std::string& name, const float& intensity);
+
 };
 #endif // EMOTIONAL_LEDS_H
