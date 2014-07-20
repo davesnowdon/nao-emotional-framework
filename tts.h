@@ -29,13 +29,41 @@ public:
    */
   virtual void init();
 
-  // After that you may add all your bind method.
+    std::vector<std::string> getAvailableLanguages();
 
-  // Function which prints "Hello!" on standard output
-  void printHello();
-  // Function which prints the word given on parameters
-  void printWord(const std::string &word);
-  // Function which returns true
-  bool returnTrue();
+    std::vector<std::string> getAvailableVoices();
+
+    std::string getLanguage();
+
+    float getParameter(const std::string& parameter);
+
+    std::vector<std::string> getSupportedLanguages();
+
+    std::string getVoice();
+
+    float getVolume();
+
+    void loadVoicePreference(const std::string& preferencesFileSuffix);
+
+    std::string locale();
+
+    void say(const std::string& stringToSay);
+
+    void say(const std::string& stringToSay, const std::string& language);
+
+    void sayToFile(const std::string& stringToSay, const std::string& fileName);
+
+    void setLanguage(const std::string& language);
+
+    void setLanguageDefaultVoice(const std::string& language, const std::string& voice);
+
+    void setParameter(const std::string& parameter, const float& value);
+
+    void setVoice(const std::string& voiceID);
+
+    void setVolume(const float& volume);
+
+    void stopAll();
+
 };
 #endif // EMOTIONAL_TTS_H

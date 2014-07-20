@@ -14,6 +14,7 @@
 #include "motion.h"
 #include "tts.h"
 #include "leds.h"
+#include "animated-speech.h"
 
 #ifdef FRAMEWORK_IS_REMOTE
 # define ALCALL
@@ -39,6 +40,7 @@ extern "C"
     AL::ALModule::createModule<EmotionalMotion>(broker, "EmotionalMotion");
     AL::ALModule::createModule<EmotionalTextToSpeech>(broker, "EmotionalTextToSpeech");
     AL::ALModule::createModule<EmotionalLeds>(broker, "EmotionalLeds");
+    AL::ALModule::createModule<EmotionalAnimatedSpeech>(broker, "EmotionalAnimatedSpeech");
     return 0;
   }
 

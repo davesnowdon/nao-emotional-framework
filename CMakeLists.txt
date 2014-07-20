@@ -17,6 +17,8 @@ set(_srcs
     leds.cpp
     tts.h
     tts.cpp
+    animated-speech.h
+    animated-speech.cpp
     main.cpp)
 
 if (IS_REMOTE)
