@@ -83,7 +83,7 @@ public:
 
     void moveTo(const AL::ALValue& controlPoints, const AL::ALValue& moveConfig);
 
-    moveTo(const float& x, const float& y, const float& theta, const float& pTime);
+    void moveTo(const float& x, const float& y, const float& theta, const float& pTime);
 
     void setFootSteps(const std::vector<std::string>& legName, const AL::ALValue& footSteps, const std::vector<float>& timeList, const bool& clearExisting);
 
@@ -179,7 +179,7 @@ public:
 
     bool setSmartStiffnessEnabled(const bool& enable);
 
-    getSmartStiffnessEnabled();
+    bool getSmartStiffnessEnabled();
 
     // Diagnosis effect API
 
