@@ -29,7 +29,7 @@ EmotionalMotion::EmotionalMotion(boost::shared_ptr<AL::ALBroker> broker,
 
   functionName("stiffnessInterpolation", getName(), "Interpolates one or multiple joints to a targeted stiffness or along timed trajectories of stiffness. This is a blocking call.");
   addParam("names", "");
-  addParam("stiffnessLists", "")
+  addParam("stiffnessLists", "");
   addParam("timeLists", "");
   BIND_METHOD(EmotionalMotion::stiffnessInterpolation);
 
@@ -62,7 +62,7 @@ EmotionalMotion::EmotionalMotion(boost::shared_ptr<AL::ALBroker> broker,
   addParam("jointNames", "");
   addParam("times", "");
   addParam("controlPoints", "");
-  BIND_METHOD(EmotionalMotion::name);
+  BIND_METHOD(EmotionalMotion::getName);
 
   functionName("angleInterpolationBezier", getName(), "Sets angles. This is a non-blocking call.");
   addParam("names", "");
@@ -96,14 +96,14 @@ EmotionalMotion::EmotionalMotion(boost::shared_ptr<AL::ALBroker> broker,
   addParam("x", "");
   addParam("y", "");
   addParam("theta", "");
-  BIND_METHOD(EmotionalMotion::move);
+  BIND_METHOD((void (EmotionalMotion::*)(const float&, const float&, const float&)) &EmotionalMotion::move);
 
   functionName("move", getName(), "Makes the robot move at the given velocity, expressed in FRAME_ROBOT, with a move configuration. This is a non-blocking call.");
   addParam("x", "");
   addParam("y", "");
   addParam("theta", "");
   addParam("moveConfig", "");
-  BIND_METHOD(EmotionalMotion::move);
+  BIND_METHOD((void (EmotionalMotion::*)(float, float, float, AL::ALValue)) &EmotionalMotion::move);
 
   functionName("moveToward", getName(), "There are two overloads of this function. Makes the robot move at the given normalized velocity, expressed in FRAME_ROBOT. This is a non-blocking call.");
   addParam("x", "");
@@ -115,7 +115,7 @@ EmotionalMotion::EmotionalMotion(boost::shared_ptr<AL::ALBroker> broker,
   addParam("x", "");
   addParam("y", "");
   addParam("theta", "");
-  addParam("moveConfig", "");  
+  addParam("moveConfig", "");
   BIND_METHOD(EmotionalMotion::name);
 
   functionName("moveToward", getName(), "There are four overloads of this function. Makes the robot move to the given pose in the ground plane, relative to FRAME_ROBOT. This is a blocking call.");
@@ -497,128 +497,128 @@ EmotionalMotion::EmotionalMotion(boost::shared_ptr<AL::ALBroker> broker,
   functionName("killAll", getName(), "Kills all tasks.");
   BIND_METHOD(EmotionalMotion::killAll);
 
-  
+
 }
 
 EmotionalMotion::~EmotionalMotion()
 {
 }
 
-void 
+void
 EmotionalMotion::EmotionalMotion::init()
-{  
+{
 }
 
-void 
+void
 EmotionalMotion::wakeUp()
 {
 }
 
-void 
+void
 EmotionalMotion::rest()
 {
 }
 
-bool 
+bool
 EmotionalMotion::robotIsWakeUp()
 {
 }
 
-void 
+void
 EmotionalMotion::stiffnessInterpolation(const AL::ALValue& names, const AL::ALValue& stiffnessLists, const AL::ALValue& timeLists)
 {
 }
 
-void 
+void
 EmotionalMotion::setStiffnesses(const AL::ALValue& names, const AL::ALValue& stiffnesses)
 {
 }
 
-std::vector<float> 
+std::vector<float>
 EmotionalMotion::getStiffnesses(const AL::ALValue& jointName)
 {
 }
 
 // Joint control API
 
-void 
+void
 EmotionalMotion::angleInterpolation(const AL::ALValue& names, const AL::ALValue& angleLists, const AL::ALValue& timeLists, const bool& isAbsolute)
 {
 }
 
-void 
+void
 EmotionalMotion::angleInterpolationWithSpeed(const AL::ALValue& names, const AL::ALValue& targetAngles, const float& maxSpeedFraction)
 {
 }
 
-void 
+void
 EmotionalMotion::angleInterpolationBezier(const std::vector<std::string>& jointNames, const AL::ALValue& times, const AL::ALValue& controlPoints)
 {
 }
 
-void 
+void
 EmotionalMotion::setAngles(const AL::ALValue& names, const AL::ALValue& angles, const float& fractionMaxSpeed)
 {
 }
 
-void 
+void
 EmotionalMotion::changeAngles(const AL::ALValue& names, const AL::ALValue& changes, const float& fractionMaxSpeed)
 {
 }
 
-std::vector<float> 
+std::vector<float>
 EmotionalMotion::getAngles(const AL::ALValue& names, const bool& useSensors)
 {
 }
 
-void 
+void
 EmotionalMotion::closeHand(const std::string& handName)
 {
 }
 
-void 
+void
 EmotionalMotion::openHand(const std::string& handName)
 {
 }
 
 // Locomotion control API
 
-void 
+void
 EmotionalMotion::move(const float& x, const float& y, const float& theta)
 {
 }
 
-void 
+void
 EmotionalMotion::move(const float& x, const float& y, const float& theta, const AL::ALValue moveConfig)
 {
 }
 
-void 
+void
 EmotionalMotion::moveToward(const float& x, const float& y, const float& theta)
 {
 }
 
-void 
+void
 EmotionalMotion::moveToward(const float& x, const float& y, const float& theta, const AL::ALValue moveConfig)
 {
 }
 
-void 
+void
 EmotionalMotion::moveTo(const float& x, const float& y, const float& theta)
 {
 }
 
-void 
+void
 EmotionalMotion::moveTo(const float& x, const float& y, const float& theta, const AL::ALValue& moveConfig)
 {
 }
 
-void 
+void
 EmotionalMotion::moveTo(const AL::ALValue& controlPoints)
 {
 }
 
-void 
+void
 EmotionalMotion::moveTo(const AL::ALValue& controlPoints, const AL::ALValue& moveConfig)
 {
 }
@@ -627,220 +627,220 @@ EmotionalMotion::moveTo(const float& x, const float& y, const float& theta, cons
 {
 }
 
-void 
+void
 EmotionalMotion::setFootSteps(const std::vector<std::string>& legName, const AL::ALValue& footSteps, const std::vector<float>& timeList, const bool& clearExisting)
 {
 }
 
-void 
+void
 EmotionalMotion::setFootStepsWithSpeed(const std::vector<std::string>& legName, const AL::ALValue& footSteps, const std::vector<float>& fractionMaxSpeed, const bool& clearExisting)
 {
 }
 
-AL::ALValue 
+AL::ALValue
 EmotionalMotion::getFootSteps()
 {
 }
 
-void 
+void
 EmotionalMotion::moveInit()
 {
 }
 
-void 
+void
 EmotionalMotion::waitUntilWalkIsFinished()
 {
 }
 
-void 
+void
 EmotionalMotion::waitUntilMoveIsFinished()
 {
 }
 
 
-bool 
+bool
 EmotionalMotion::moveIsActive()
 {
 }
 
-void 
+void
 EmotionalMotion::stopWalk()
 {
 }
 
-void 
+void
 EmotionalMotion::stopMove()
 {
 }
 
-AL::ALValue 
+AL::ALValue
 EmotionalMotion::getMoveConfig(const std::string& config)
 {
 }
 
-std::vector<float> 
+std::vector<float>
 EmotionalMotion::getRobotPosition(const bool& useSensors)
 {
 }
 
-std::vector<float> 
+std::vector<float>
 EmotionalMotion::getNextRobotPosition()
 {
 }
 
-std::vector<float> 
+std::vector<float>
 EmotionalMotion::getRobotVelocity()
 {
 }
 
-bool 
+bool
 EmotionalMotion::getMoveArmsEnabled(const std::string& chainName)
 {
 }
 
-void 
+void
 EmotionalMotion::setMoveArmsEnabled(const bool& leftArmEnable, const bool& rightArmEnable)
 {
 }
 
 // Cartesian control API
 
-void 
+void
 EmotionalMotion::positionInterpolations(const AL::ALValue& effectorNames, const AL::ALValue& frames, const AL::ALValue& paths, const AL::ALValue& axisMasks, const AL::ALValue& relativeTimes)
 {
 }
 
-void 
+void
 EmotionalMotion::setPositions(const AL::ALValue& effectorNames, const AL::ALValue& frame, const AL::ALValue& position, const float& fractionMaxSpeed, const AL::ALValue& axisMask)
 {
 }
 
-std::vector<float> 
+std::vector<float>
 EmotionalMotion::getPosition(const std::string& name, const int& frame, const bool& useSensorValues)
 {
 }
 
-void 
+void
 EmotionalMotion::transformInterpolations(const AL::ALValue& effectorNames, const AL::ALValue& frames, const AL::ALValue& paths, const AL::ALValue& axisMasks, const AL::ALValue& relativeTimes)
 {
 }
 
-void 
+void
 EmotionalMotion::setTransforms(const std::string& effectorName, const int& frame, const std::vector<float>& transform, const float& fractionMaxSpeed, const int& axisMask)
 {
 }
 
-std::vector<float> 
+std::vector<float>
 EmotionalMotion::getTransform(const std::string& name, const int& frame, const bool& useSensorValues)
 {
 }
 
 // Whole Body control API
 
-void 
+void
 EmotionalMotion::wbEnable(const bool& isEnabled)
 {
 }
 
-void 
+void
 EmotionalMotion::wbFootState(const std::string& stateName, const std::string& supportLeg)
 {
 }
 
-void 
+void
 EmotionalMotion::wbEnableBalanceConstraint(const bool& isEnable, const std::string& supportLeg)
 {
 }
 
-void 
+void
 EmotionalMotion::wbGoToBalance(const std::string& supportLeg, const float& duration)
 {
 }
 
-void 
+void
 EmotionalMotion::wbEnableEffectorControl(const std::string& effectorName, const bool& isEnabled)
 {
 }
 
-void 
+void
 EmotionalMotion::wbSetEffectorControl(const std::string& effectorName, const AL::ALValue& targetCoordinate)
 {
 }
 
-void 
+void
 EmotionalMotion::wbEnableEffectorOptimization(const std::string& effectorName, const bool& isEnabled)
 {
 }
 
 // Self-collision avoidance API
 
-bool 
+bool
 EmotionalMotion::setCollisionProtectionEnabled(const std::string& ChainName, const bool& Enable)
 {
 }
 
-bool 
+bool
 EmotionalMotion::getCollisionProtectionEnabled(const std::string& ChainName)
 {
 }
 
-std::string 
+std::string
 EmotionalMotion::isCollision(const std::string& ChainName)
 {
 }
 
 // External-collision avoidance API
 
-std::vector<float> 
+std::vector<float>
 EmotionalMotion::getChainClosestObstaclePosition(const std::string& chainName, const int& frame)
 {
 }
 
-bool 
+bool
 EmotionalMotion::getExternalCollisionProtectionEnabled(const std::string& name)
 {
 }
 
-float 
+float
 EmotionalMotion::getOrthogonalSecurityDistance()
 {
 }
 
-float 
+float
 EmotionalMotion::getTangentialSecurityDistance()
 {
 }
 
-void 
+void
 EmotionalMotion::setExternalCollisionProtectionEnabled(const std::string& name, const bool& enable)
 {
 }
 
-void 
+void
 EmotionalMotion::setOrthogonalSecurityDistance(const float& distance)
 {
 }
 
-void 
+void
 EmotionalMotion::setTangentialSecurityDistance(const float& distance)
 {
 }
 
 //Fall manager API
 
-void 
+void
 EmotionalMotion::setFallManagerEnabled(const bool& enable)
 {
 }
 
-bool 
+bool
 EmotionalMotion::getFallManagerEnabled()
 {
 }
 
 // Smart Stiffness API
 
-bool 
+bool
 EmotionalMotion::setSmartStiffnessEnabled(const bool& enable)
 {
 }
@@ -851,145 +851,145 @@ EmotionalMotion::getSmartStiffnessEnabled()
 
 // Diagnosis effect API
 
-void 
+void
 EmotionalMotion::setDiagnosisEffectEnabled(const bool& enable)
 {
 }
 
-bool 
+bool
 EmotionalMotion::getDiagnosisEffectEnabled()
 {
 }
 
 // Push Recovery API
 
-void 
+void
 EmotionalMotion::setPushRecoveryEnabled(const bool& enable)
 {
 }
 
-bool 
+bool
 EmotionalMotion::getPushRecoveryEnabled(void)
 {
 }
 
 // Idle API
 
-void 
+void
 EmotionalMotion::setIdlePostureEnabled(const std::string& pChainName, const bool& pEnable)
 {
 }
 
-bool 
+bool
 EmotionalMotion::getIdlePostureEnabled(const std::string& pChainName)
 {
 }
 
-void 
+void
 EmotionalMotion::setBreathEnabled(const std::string& pChainName, const bool& pEnable)
 {
 }
 
-bool 
+bool
 EmotionalMotion::getBreathEnabled(const std::string& pChainName)
 {
 }
 
-void 
+void
 EmotionalMotion::setBreathConfig(const AL::ALValue& pConfig)
 {
 }
 
-AL::ALValue 
+AL::ALValue
 EmotionalMotion::getBreathConfig()
 {
 }
 
 // General tools API
 
-bool 
+bool
 EmotionalMotion::areNotificationsEnabled()
 {
 }
 
-std::vector<std::string> 
+std::vector<std::string>
 EmotionalMotion::getBodyNames(const std::string& name)
 {
 }
 
-std::vector<std::string> 
+std::vector<std::string>
 EmotionalMotion::getSensorNames()
 {
 }
 
-AL::ALValue 
+AL::ALValue
 EmotionalMotion::getLimits(const std::string& name)
 {
 }
 
-AL::ALValue 
+AL::ALValue
 EmotionalMotion::getMotionCycleTime()
 {
 }
 
-AL::ALValue 
+AL::ALValue
 EmotionalMotion::getRobotConfig()
 {
 }
 
-std::string 
+std::string
 EmotionalMotion::getSummary()
 {
 }
 
-float 
+float
 EmotionalMotion::getMass(const std::string& pName)
 {
 }
 
-std::vector<float> 
+std::vector<float>
 EmotionalMotion::getCOM(const std::string& pName, const int& pSpace, const bool& pUseSensorValues)
 {
 }
 
-void 
+void
 EmotionalMotion::setMotionConfig(const AL::ALValue& config)
 {
 }
 
-void 
+void
 EmotionalMotion::setEnableNotifications(bool enable)
 {
 }
 
 // Motion task API
 
-AL::ALValue 
+AL::ALValue
 EmotionalMotion::getTaskList()
 {
 }
 
-bool 
+bool
 EmotionalMotion::areResourcesAvailable(const std::vector<std::string>& resourceNames)
 {
 }
 
-bool 
+bool
 EmotionalMotion::killTask(const int& motionTaskID)
 {
 }
 
-void 
+void
 EmotionalMotion::killTasksUsingResources(const std::vector<std::string>& resourceNames)
 {
 }
 
-void 
+void
 EmotionalMotion::killMove()
 {
 }
 
-void 
+void
 EmotionalMotion::killAll()
 {
 }
