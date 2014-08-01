@@ -69,11 +69,11 @@ public:
 
     void move(const float& x, const float& y, const float& theta);
 
-    void move(const float& x, const float& y, const float& theta, const AL::ALValue moveConfig);
+    void move(const float& x, const float& y, const float& theta, const AL::ALValue& moveConfig);
 
     void moveToward(const float& x, const float& y, const float& theta);
 
-    void moveToward(const float& x, const float& y, const float& theta, const AL::ALValue moveConfig);
+    void moveToward(const float& x, const float& y, const float& theta, const AL::ALValue& moveConfig);
 
     void moveTo(const float& x, const float& y, const float& theta);
 

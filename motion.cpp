@@ -93,59 +93,162 @@ EmotionalMotion::EmotionalMotion(boost::shared_ptr<AL::ALBroker> broker,
   // Locomotion control API
 
   functionName("move", getName(), "There are two overloads of this function. Makes the robot move at the given velocity, expressed in FRAME_ROBOT. This is a non-blocking call.");
-  addParam("x", "");
-  addParam("y", "");
-  addParam("theta", "");
-  BIND_METHOD((void (EmotionalMotion::*)(const float&, const float&, const float&)) &EmotionalMotion::move);
+  addParam("x", "The velocity along x axis [m.s-1].");
+  addParam("y", "The velocity along y axis [m.s-1].");
+  addParam("theta", "The velocity around z axis [rd.s-1].");
+  AL::completeAndCheck<
+    EmotionalMotion,
+    const float&,
+    const float&,
+    const float&,
+    void>
+    (&EmotionalMotion::move, getCurrentMethodDescription());
+  bindMethodOverload(AL::createFunctor<EmotionalMotion,
+                     float,
+                     float,
+                     float,
+                     void>
+  (this, &EmotionalMotion::move));
 
   functionName("move", getName(), "Makes the robot move at the given velocity, expressed in FRAME_ROBOT, with a move configuration. This is a non-blocking call.");
-  addParam("x", "");
-  addParam("y", "");
-  addParam("theta", "");
+  addParam("x", "The velocity along x axis [m.s-1].");
+  addParam("y", "The velocity along y axis [m.s-1].");
+  addParam("theta", "The velocity around z axis [rd.s-1].");
   addParam("moveConfig", "");
-  BIND_METHOD((void (EmotionalMotion::*)(float, float, float, AL::ALValue)) &EmotionalMotion::move);
+  AL::completeAndCheck<EmotionalMotion,
+                       const float&,
+                       const float&,
+                       const float&,
+                       const AL::ALValue&,
+                       void>
+    (&EmotionalMotion::move, getCurrentMethodDescription());
+  bindMethodOverload(AL::createFunctor<EmotionalMotion,
+                     float,
+                     float,
+                     float,
+                     AL::ALValue,
+                     void>
+  (this, &EmotionalMotion::move));
 
   functionName("moveToward", getName(), "There are two overloads of this function. Makes the robot move at the given normalized velocity, expressed in FRAME_ROBOT. This is a non-blocking call.");
   addParam("x", "");
   addParam("y", "");
   addParam("theta", "");
-  BIND_METHOD(EmotionalMotion::moveToward);
+  AL::completeAndCheck<EmotionalMotion,
+                       const float&,
+                       const float&,
+                       const float&,
+                       void>
+    (&EmotionalMotion::moveToward, getCurrentMethodDescription());
+  bindMethodOverload(AL::createFunctor<EmotionalMotion,
+                     float,
+                     float,
+                     float,
+                     void>
+  (this, &EmotionalMotion::moveToward));
 
-  functionName("name", getName(), "Makes the robot move at the given normalized velocity, expressed in FRAME_ROBOT, with a move configuration. This is a non-blocking call.");
+  functionName("moveToward", getName(), "There are two overloads of this function. Makes the robot move to the given pose in the ground plane, relative to FRAME_ROBOT. This is a blocking call.");
   addParam("x", "");
   addParam("y", "");
   addParam("theta", "");
   addParam("moveConfig", "");
-  BIND_METHOD(EmotionalMotion::name);
+  AL::completeAndCheck<EmotionalMotion,
+                       const float&,
+                       const float&,
+                       const float&,
+                       const AL::ALValue&,
+                       void>
+    (&EmotionalMotion::moveToward, getCurrentMethodDescription());
+  bindMethodOverload(AL::createFunctor<EmotionalMotion,
+                     float,
+                     float,
+                     float,
+                     AL::ALValue,
+                     void>
+  (this, &EmotionalMotion::moveToward));
 
-  functionName("moveToward", getName(), "There are four overloads of this function. Makes the robot move to the given pose in the ground plane, relative to FRAME_ROBOT. This is a blocking call.");
+  functionName("moveTo", getName(), "Makes the robot move to the given pose in the ground plane, relative to FRAME_ROBOT, with custom move configuration. This is a blocking call.");
   addParam("x", "");
   addParam("y", "");
   addParam("theta", "");
-  BIND_METHOD(EmotionalMotion::moveToward);
+  AL::completeAndCheck<EmotionalMotion,
+                       const float&,
+                       const float&,
+                       const float&,
+                       void>
+    (&EmotionalMotion::moveTo, getCurrentMethodDescription());
+  bindMethodOverload(AL::createFunctor<EmotionalMotion,
+                     float,
+                     float,
+                     float,
+                     void>
+  (this, &EmotionalMotion::moveTo));
+
 
   functionName("moveTo", getName(), "Makes the robot move to the given pose in the ground plane, relative to FRAME_ROBOT, with custom move configuration. This is a blocking call.");
   addParam("x", "");
   addParam("y", "");
   addParam("theta", "");
   addParam("moveConfig", "");
-  BIND_METHOD(EmotionalMotion::moveTo);
+  AL::completeAndCheck<EmotionalMotion,
+                       const float&,
+                       const float&,
+                       const float&,
+                       const AL::ALValue&,
+                       void>
+    (&EmotionalMotion::moveTo, getCurrentMethodDescription());
+  bindMethodOverload(AL::createFunctor<EmotionalMotion,
+                     float,
+                     float,
+                     float,
+                     AL::ALValue,
+                     void>
+  (this, &EmotionalMotion::moveTo));
 
   functionName("moveTo", getName(), "Makes the robot move to the given pose in the ground plane, relative to FRAME_ROBOT, while passing through check points. This is a blocking call.");
   addParam("controlPoints", "");
-  BIND_METHOD(EmotionalMotion::moveTo);
+  AL::completeAndCheck<EmotionalMotion,
+                       const AL::ALValue&,
+                       void>
+    (&EmotionalMotion::moveTo, getCurrentMethodDescription());
+  bindMethodOverload(AL::createFunctor<EmotionalMotion,
+                     AL::ALValue,
+                     void>
+  (this, &EmotionalMotion::moveTo));
 
   functionName("moveTo", getName(), "Makes the robot move to the given pose in the ground plane, relative to FRAME_ROBOT, while passing through check points with custom move configuration. This is a blocking call.");
   addParam("controlPoints", "");
   addParam("moveConfig", "");
-  BIND_METHOD(EmotionalMotion::moveTo);
+  AL::completeAndCheck<EmotionalMotion,
+                       const AL::ALValue&,
+                       const AL::ALValue&,
+                       void>
+    (&EmotionalMotion::moveTo, getCurrentMethodDescription());
+  bindMethodOverload(AL::createFunctor<EmotionalMotion,
+                     AL::ALValue,
+                     AL::ALValue,
+                     void>
+  (this, &EmotionalMotion::moveTo));
 
   functionName("moveTo", getName(), "Makes the robot move to the relative position (x, y, theta) in pTime.");
   addParam("x", "");
   addParam("y", "");
   addParam("theta", "");
   addParam("pTime", "");
-  BIND_METHOD(EmotionalMotion::moveTo);
+  AL::completeAndCheck<EmotionalMotion,
+                       const float&,
+                       const float&,
+                       const float&,
+                       const float&,
+                       void>
+    (&EmotionalMotion::moveTo, getCurrentMethodDescription());
+  bindMethodOverload(AL::createFunctor<EmotionalMotion,
+                     float,
+                     float,
+                     float,
+                     float,
+                     void>
+  (this, &EmotionalMotion::moveTo));
 
   functionName("setFootSteps", getName(), "Makes the robot do foot step planner. This is a non-blocking call.");
   addParam("legName", "");
@@ -589,7 +692,7 @@ EmotionalMotion::move(const float& x, const float& y, const float& theta)
 }
 
 void
-EmotionalMotion::move(const float& x, const float& y, const float& theta, const AL::ALValue moveConfig)
+EmotionalMotion::move(const float& x, const float& y, const float& theta, const AL::ALValue& moveConfig)
 {
 }
 
@@ -599,7 +702,7 @@ EmotionalMotion::moveToward(const float& x, const float& y, const float& theta)
 }
 
 void
-EmotionalMotion::moveToward(const float& x, const float& y, const float& theta, const AL::ALValue moveConfig)
+EmotionalMotion::moveToward(const float& x, const float& y, const float& theta, const AL::ALValue& moveConfig)
 {
 }
 
@@ -623,6 +726,7 @@ EmotionalMotion::moveTo(const AL::ALValue& controlPoints, const AL::ALValue& mov
 {
 }
 
+void
 EmotionalMotion::moveTo(const float& x, const float& y, const float& theta, const float& pTime)
 {
 }
@@ -845,6 +949,7 @@ EmotionalMotion::setSmartStiffnessEnabled(const bool& enable)
 {
 }
 
+bool
 EmotionalMotion::getSmartStiffnessEnabled()
 {
 }
