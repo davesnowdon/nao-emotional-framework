@@ -608,7 +608,7 @@ EmotionalMotion::~EmotionalMotion()
 }
 
 void
-EmotionalMotion::EmotionalMotion::init()
+EmotionalMotion::init()
 {
 }
 
