@@ -3,9 +3,8 @@
 #include <iostream>
 #include <alcommon/albroker.h>
 
-EmotionalLeds::EmotionalLeds(boost::shared_ptr<AL::ALBroker> broker,
-                   const std::string& name)
-  : AL::ALModule(broker, name)
+EmotionalLeds::EmotionalLeds(boost::shared_ptr<AL::ALBroker> broker)
+  : AL::ALModule(broker, LED_MODULE_ADAPTOR)
 {
   setModuleDescription("Emotionally modified LEDs");
 

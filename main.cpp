@@ -35,10 +35,10 @@ extern "C"
     AL::ALBrokerManager::setInstance(broker->fBrokerManager.lock());
     AL::ALBrokerManager::getInstance()->addBroker(broker);
     // create module instances
-    AL::ALModule::createModule<Emotion>(broker, "Emotion");
-    AL::ALModule::createModule<EmotionalMotion>(broker, "EmotionalMotion");
-    AL::ALModule::createModule<EmotionalTextToSpeech>(broker, "EmotionalTextToSpeech");
-    AL::ALModule::createModule<EmotionalLeds>(broker, "EmotionalLeds");
+    AL::ALModule::createModule<Emotion>(broker);
+    AL::ALModule::createModule<EmotionalMotion>(broker);
+    AL::ALModule::createModule<EmotionalTextToSpeech>(broker);
+    AL::ALModule::createModule<EmotionalLeds>(broker);
     return 0;
   }
 

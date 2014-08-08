@@ -3,9 +3,8 @@
 #include <iostream>
 #include <alcommon/albroker.h>
 
-EmotionalMotion::EmotionalMotion(boost::shared_ptr<AL::ALBroker> broker,
-                   const std::string& name)
-  : AL::ALModule(broker, name)
+EmotionalMotion::EmotionalMotion(boost::shared_ptr<AL::ALBroker> broker)
+  : AL::ALModule(broker, MOTION_MODULE_ADAPTOR)
 {
   // Describe the module here. This will appear on the webpage
   setModuleDescription("Emotionally modified motion");

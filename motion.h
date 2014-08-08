@@ -4,6 +4,8 @@
 # include <iostream>
 # include <alcommon/almodule.h>
 
+#include "emotion.h"
+
 namespace AL
 {
   // This is a forward declaration of AL:ALBroker which
@@ -18,8 +20,7 @@ namespace AL
 class EmotionalMotion : public AL::ALModule
 {
 public:
-  EmotionalMotion(boost::shared_ptr<AL::ALBroker> broker,
-           const std::string &name);
+  EmotionalMotion(boost::shared_ptr<AL::ALBroker> broker);
 
   virtual ~EmotionalMotion();
 

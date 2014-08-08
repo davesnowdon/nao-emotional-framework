@@ -3,10 +3,13 @@
 #include <iostream>
 #include <alcommon/albroker.h>
 
-Emotion::Emotion(boost::shared_ptr<AL::ALBroker> broker,
-                   const std::string& name)
-  : AL::ALModule(broker, name)
+Emotion::Emotion(boost::shared_ptr<AL::ALBroker> broker)
+  : AL::ALModule(broker, EMOTION_MODULE)
 {
+  mModuleNames[MOTION_MODULE] = MOTION_MODULE_ADAPTOR;
+  mModuleNames[TTS_MODULE] = TTS_MODULE_ADAPTOR;
+  mModuleNames[LED_MODULE] = LED_MODULE_ADAPTOR;
+
   // Describe the module here. This will appear on the webpage
   setModuleDescription("This module provides access to the emotional model and the adaptor modules that wrap the standard modules");
 
@@ -35,5 +38,13 @@ void Emotion::init()
 std::string
 Emotion::getProxyName(const std::string& proxyName)
 {
-  return "";
+  std::map<std::string, std::string>::iterator it;
+  it = mModuleNames.find(proxyName);
+  if (it == mModuleNames.end()) {
+    /* module name not found in map so return name unchanged */
+    return proxyName;
+  } else {
+    /* return name of adaptor for this module */
+    return it->second;
+  }
 }

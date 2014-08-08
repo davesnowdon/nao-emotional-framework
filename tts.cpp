@@ -3,9 +3,8 @@
 #include <iostream>
 #include <alcommon/albroker.h>
 
-EmotionalTextToSpeech::EmotionalTextToSpeech(boost::shared_ptr<AL::ALBroker> broker,
-                   const std::string& name)
-  : AL::ALModule(broker, name)
+EmotionalTextToSpeech::EmotionalTextToSpeech(boost::shared_ptr<AL::ALBroker> broker)
+  : AL::ALModule(broker, TTS_MODULE_ADAPTOR)
 {
   // Describe the module here. This will appear on the webpage
   setModuleDescription("Emotional wrapper for ALTextToSpeech.");
