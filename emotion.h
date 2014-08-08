@@ -29,13 +29,8 @@ public:
    */
   virtual void init();
 
-  // After that you may add all your bind method.
-
-  // Function which prints "Hello!" on standard output
-  void printHello();
-  // Function which prints the word given on parameters
-  void printWord(const std::string &word);
-  // Function which returns true
-  bool returnTrue();
+  // Return the name of the proxy to use instead of the named
+  // standard proxy
+  std::string getProxyName(const std::string& proxyName);
 };
 #endif // EMOTION_H
