@@ -103,6 +103,9 @@ EmotionalTextToSpeech::EmotionalTextToSpeech(boost::shared_ptr<AL::ALBroker> bro
 
   functionName("stopAll", getName(), "This method stops the current and all the pending tasks immediately.");
   BIND_METHOD(EmotionalTextToSpeech::stopAll);
+
+  // TODO add error checking for proxy creation
+  ttsProxy = ALTextToSpeechProxyPtr(new AL::ALTextToSpeechProxy(broker));
 }
 
 EmotionalTextToSpeech::~EmotionalTextToSpeech()
@@ -112,95 +115,112 @@ EmotionalTextToSpeech::~EmotionalTextToSpeech()
 void
 EmotionalTextToSpeech::init()
 {
-
 }
 
 std::vector<std::string>
 EmotionalTextToSpeech::getAvailableLanguages()
 {
+  return ttsProxy->getAvailableLanguages();
 }
 
 std::vector<std::string>
 EmotionalTextToSpeech::getAvailableVoices()
 {
+  return ttsProxy->getAvailableVoices();
 }
 
 std::string
 EmotionalTextToSpeech::getLanguage()
 {
+  return ttsProxy->getLanguage();
 }
 
 float
 EmotionalTextToSpeech::getParameter(const std::string& pParameterName)
 {
+  return ttsProxy->getParameter(pParameterName);
 }
 
 std::vector<std::string>
 EmotionalTextToSpeech::getSupportedLanguages()
 {
+  return ttsProxy->getSupportedLanguages();
 }
 
 std::string
 EmotionalTextToSpeech::getVoice()
 {
+  return ttsProxy->getVoice();
 }
 
 float
 EmotionalTextToSpeech::getVolume()
 {
+  return ttsProxy->getVolume();
 }
 
 void
 EmotionalTextToSpeech::loadVoicePreference(const std::string& pPreferenceName)
 {
+  ttsProxy->loadVoicePreference(pPreferenceName);
 }
 
 std::string
 EmotionalTextToSpeech::locale()
 {
+  return ttsProxy->locale();
 }
 
 void
 EmotionalTextToSpeech::say(const std::string& stringToSay)
 {
+  ttsProxy->say(stringToSay);
 }
 
 void
 EmotionalTextToSpeech::say(const std::string& stringToSay, const std::string& language)
 {
+  ttsProxy->say(stringToSay, language);
 }
 
 void
 EmotionalTextToSpeech::sayToFile(const std::string& pStringToSay, const std::string& pFileName)
 {
+  ttsProxy->sayToFile(pStringToSay, pFileName);
 }
 
 void
 EmotionalTextToSpeech::setLanguage(const std::string& pLanguage)
 {
+  ttsProxy->setLanguage(pLanguage);
 }
 
 void
-EmotionalTextToSpeech::setLanguageDefaultVoice(const std::string& Language, const std::string& Voice)
+EmotionalTextToSpeech::setLanguageDefaultVoice(const std::string& language, const std::string& voice)
 {
+  ttsProxy->setLanguageDefaultVoice(language, voice);
 }
 
 void
 EmotionalTextToSpeech::setParameter(const std::string& pEffectName, const float& pEffectValue)
 {
+  ttsProxy->setParameter(pEffectName, pEffectValue);
 }
 
 void
 EmotionalTextToSpeech::setVoice(const std::string& pVoiceID)
 {
+  ttsProxy->setVoice(pVoiceID);
 }
 
 void
 EmotionalTextToSpeech::setVolume(const float& volume)
 {
+  ttsProxy->setVolume(volume);
 }
 
 void
 EmotionalTextToSpeech::stopAll()
 {
+  ttsProxy->stopAll();
 }

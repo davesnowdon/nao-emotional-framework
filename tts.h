@@ -3,6 +3,7 @@
 
 # include <iostream>
 # include <alcommon/almodule.h>
+# include <alproxies/altexttospeechproxy.h>
 
 #include "emotion.h"
 
@@ -146,5 +147,10 @@ public:
     /// This method stops the current and all the pending tasks immediately.
     /// </summary>
     void stopAll();
+
+    typedef boost::shared_ptr<AL::ALTextToSpeechProxy> ALTextToSpeechProxyPtr;
+
+private:
+    ALTextToSpeechProxyPtr ttsProxy;
 };
 #endif // EMOTIONAL_TTS_H
