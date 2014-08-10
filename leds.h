@@ -3,6 +3,7 @@
 
 # include <iostream>
 # include <alcommon/almodule.h>
+# include <alproxies/alledsproxy.h>
 
 #include "emotion.h"
 
@@ -64,5 +65,9 @@ public:
 
     void setIntensity(const std::string& name, const float& intensity);
 
+    typedef boost::shared_ptr<AL::ALLedsProxy> ALLedsProxyPtr;
+
+private:
+    ALLedsProxyPtr ledProxy;
 };
 #endif // EMOTIONAL_LEDS_H
