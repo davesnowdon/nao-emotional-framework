@@ -599,7 +599,8 @@ EmotionalMotion::EmotionalMotion(boost::shared_ptr<AL::ALBroker> broker)
   functionName("killAll", getName(), "Kills all tasks.");
   BIND_METHOD(EmotionalMotion::killAll);
 
-
+  // TODO add error checking for proxy creation
+  motionProxy = ALMotionProxyPtr(new AL::ALMotionProxy(broker));
 }
 
 EmotionalMotion::~EmotionalMotion()
@@ -614,31 +615,37 @@ EmotionalMotion::init()
 void
 EmotionalMotion::wakeUp()
 {
+  motionProxy->wakeUp();
 }
 
 void
 EmotionalMotion::rest()
 {
+  motionProxy->rest();
 }
 
 bool
 EmotionalMotion::robotIsWakeUp()
 {
+  return motionProxy->robotIsWakeUp();
 }
 
 void
 EmotionalMotion::stiffnessInterpolation(const AL::ALValue& names, const AL::ALValue& stiffnessLists, const AL::ALValue& timeLists)
 {
+  motionProxy->stiffnessInterpolation(names, stiffnessLists, timeLists);
 }
 
 void
 EmotionalMotion::setStiffnesses(const AL::ALValue& names, const AL::ALValue& stiffnesses)
 {
+  motionProxy->setStiffnesses(names, stiffnesses);
 }
 
 std::vector<float>
 EmotionalMotion::getStiffnesses(const AL::ALValue& jointName)
 {
+  return motionProxy->getStiffnesses(jointName);
 }
 
 // Joint control API
@@ -646,41 +653,49 @@ EmotionalMotion::getStiffnesses(const AL::ALValue& jointName)
 void
 EmotionalMotion::angleInterpolation(const AL::ALValue& names, const AL::ALValue& angleLists, const AL::ALValue& timeLists, const bool& isAbsolute)
 {
+  motionProxy->angleInterpolation(names, angleLists, timeLists, isAbsolute);
 }
 
 void
 EmotionalMotion::angleInterpolationWithSpeed(const AL::ALValue& names, const AL::ALValue& targetAngles, const float& maxSpeedFraction)
 {
+  motionProxy->angleInterpolationWithSpeed(names, targetAngles, maxSpeedFraction);
 }
 
 void
 EmotionalMotion::angleInterpolationBezier(const std::vector<std::string>& jointNames, const AL::ALValue& times, const AL::ALValue& controlPoints)
 {
+  motionProxy->angleInterpolationBezier(jointNames, times, controlPoints);
 }
 
 void
 EmotionalMotion::setAngles(const AL::ALValue& names, const AL::ALValue& angles, const float& fractionMaxSpeed)
 {
+  motionProxy->setAngles(names, angles, fractionMaxSpeed);
 }
 
 void
 EmotionalMotion::changeAngles(const AL::ALValue& names, const AL::ALValue& changes, const float& fractionMaxSpeed)
 {
+  motionProxy->changeAngles(names, changes, fractionMaxSpeed);
 }
 
 std::vector<float>
 EmotionalMotion::getAngles(const AL::ALValue& names, const bool& useSensors)
 {
+  return motionProxy->getAngles(names, useSensors);
 }
 
 void
 EmotionalMotion::closeHand(const std::string& handName)
 {
+  motionProxy->closeHand(handName);
 }
 
 void
 EmotionalMotion::openHand(const std::string& handName)
 {
+  motionProxy->openHand(handName);
 }
 
 // Locomotion control API
@@ -688,122 +703,146 @@ EmotionalMotion::openHand(const std::string& handName)
 void
 EmotionalMotion::move(const float& x, const float& y, const float& theta)
 {
+  motionProxy->move(x, y, theta);
 }
 
 void
 EmotionalMotion::move(const float& x, const float& y, const float& theta, const AL::ALValue& moveConfig)
 {
+  motionProxy->move(x, y, theta, moveConfig);
 }
 
 void
 EmotionalMotion::moveToward(const float& x, const float& y, const float& theta)
 {
+  motionProxy->moveToward(x, y, theta);
 }
 
 void
 EmotionalMotion::moveToward(const float& x, const float& y, const float& theta, const AL::ALValue& moveConfig)
 {
+  motionProxy->moveToward(x, y, theta, moveConfig);
 }
 
 void
 EmotionalMotion::moveTo(const float& x, const float& y, const float& theta)
 {
+  motionProxy->moveTo(x, y, theta);
 }
 
 void
 EmotionalMotion::moveTo(const float& x, const float& y, const float& theta, const AL::ALValue& moveConfig)
 {
+  motionProxy->moveTo(x, y, theta, moveConfig);
 }
 
 void
 EmotionalMotion::moveTo(const AL::ALValue& controlPoints)
 {
+  motionProxy->moveTo(controlPoints);
 }
 
 void
 EmotionalMotion::moveTo(const AL::ALValue& controlPoints, const AL::ALValue& moveConfig)
 {
+  motionProxy->moveTo(controlPoints, moveConfig);
 }
 
 void
 EmotionalMotion::moveTo(const float& x, const float& y, const float& theta, const float& pTime)
 {
+  motionProxy->moveTo(x, y, theta, pTime);
 }
 
 void
 EmotionalMotion::setFootSteps(const std::vector<std::string>& legName, const AL::ALValue& footSteps, const std::vector<float>& timeList, const bool& clearExisting)
 {
+  motionProxy->setFootSteps(legName, footSteps, timeList, clearExisting);
 }
 
 void
 EmotionalMotion::setFootStepsWithSpeed(const std::vector<std::string>& legName, const AL::ALValue& footSteps, const std::vector<float>& fractionMaxSpeed, const bool& clearExisting)
 {
+  motionProxy->setFootStepsWithSpeed(legName, footSteps, fractionMaxSpeed, clearExisting);
 }
 
 AL::ALValue
 EmotionalMotion::getFootSteps()
 {
+  return motionProxy->getFootSteps();
 }
 
 void
 EmotionalMotion::moveInit()
 {
+  motionProxy->moveInit();
 }
 
 void
 EmotionalMotion::waitUntilWalkIsFinished()
 {
+  motionProxy->waitUntilWalkIsFinished();
 }
 
 void
 EmotionalMotion::waitUntilMoveIsFinished()
 {
+  motionProxy->waitUntilMoveIsFinished();
 }
 
 
 bool
 EmotionalMotion::moveIsActive()
 {
+  return motionProxy->moveIsActive();
 }
 
 void
 EmotionalMotion::stopWalk()
 {
+  motionProxy->stopWalk();
 }
 
 void
 EmotionalMotion::stopMove()
 {
+  motionProxy->stopMove();
 }
 
 AL::ALValue
 EmotionalMotion::getMoveConfig(const std::string& config)
 {
+  return motionProxy->getMoveConfig(config);
 }
 
 std::vector<float>
 EmotionalMotion::getRobotPosition(const bool& useSensors)
 {
+  return motionProxy->getRobotPosition(useSensors);
 }
 
 std::vector<float>
 EmotionalMotion::getNextRobotPosition()
 {
+  return motionProxy->getNextRobotPosition();
 }
 
 std::vector<float>
 EmotionalMotion::getRobotVelocity()
 {
+  return motionProxy->getRobotVelocity();
 }
 
 bool
 EmotionalMotion::getMoveArmsEnabled(const std::string& chainName)
 {
+  return motionProxy->getMoveArmsEnabled(chainName);
 }
 
 void
 EmotionalMotion::setMoveArmsEnabled(const bool& leftArmEnable, const bool& rightArmEnable)
 {
+  motionProxy->setMoveArmsEnabled(leftArmEnable, rightArmEnable);
 }
 
 // Cartesian control API
@@ -811,31 +850,37 @@ EmotionalMotion::setMoveArmsEnabled(const bool& leftArmEnable, const bool& right
 void
 EmotionalMotion::positionInterpolations(const AL::ALValue& effectorNames, const AL::ALValue& frames, const AL::ALValue& paths, const AL::ALValue& axisMasks, const AL::ALValue& relativeTimes)
 {
+  motionProxy->positionInterpolations(effectorNames, frames, paths, axisMasks, relativeTimes);
 }
 
 void
 EmotionalMotion::setPositions(const AL::ALValue& effectorNames, const AL::ALValue& frame, const AL::ALValue& position, const float& fractionMaxSpeed, const AL::ALValue& axisMask)
 {
+  motionProxy->setPositions(effectorNames, frame, position, fractionMaxSpeed, axisMask);
 }
 
 std::vector<float>
 EmotionalMotion::getPosition(const std::string& name, const int& frame, const bool& useSensorValues)
 {
+  return motionProxy->getPosition(name, frame, useSensorValues);
 }
 
 void
 EmotionalMotion::transformInterpolations(const AL::ALValue& effectorNames, const AL::ALValue& frames, const AL::ALValue& paths, const AL::ALValue& axisMasks, const AL::ALValue& relativeTimes)
 {
+  motionProxy->transformInterpolations(effectorNames, frames, paths, axisMasks, relativeTimes);
 }
 
 void
 EmotionalMotion::setTransforms(const std::string& effectorName, const int& frame, const std::vector<float>& transform, const float& fractionMaxSpeed, const int& axisMask)
 {
+  motionProxy->setTransforms(effectorName, frame, transform, fractionMaxSpeed, axisMask);
 }
 
 std::vector<float>
 EmotionalMotion::getTransform(const std::string& name, const int& frame, const bool& useSensorValues)
 {
+  return motionProxy->getTransform(name, frame, useSensorValues);
 }
 
 // Whole Body control API
@@ -843,53 +888,63 @@ EmotionalMotion::getTransform(const std::string& name, const int& frame, const b
 void
 EmotionalMotion::wbEnable(const bool& isEnabled)
 {
+  motionProxy->wbEnable(isEnabled);
 }
 
 void
 EmotionalMotion::wbFootState(const std::string& stateName, const std::string& supportLeg)
 {
+  motionProxy->wbFootState(stateName, supportLeg);
 }
 
 void
 EmotionalMotion::wbEnableBalanceConstraint(const bool& isEnable, const std::string& supportLeg)
 {
+  motionProxy->wbEnableBalanceConstraint(isEnable, supportLeg);
 }
 
 void
 EmotionalMotion::wbGoToBalance(const std::string& supportLeg, const float& duration)
 {
+  motionProxy->wbGoToBalance(supportLeg, duration);
 }
 
 void
 EmotionalMotion::wbEnableEffectorControl(const std::string& effectorName, const bool& isEnabled)
 {
+  motionProxy->wbEnableEffectorControl(effectorName, isEnabled);
 }
 
 void
 EmotionalMotion::wbSetEffectorControl(const std::string& effectorName, const AL::ALValue& targetCoordinate)
 {
+  motionProxy->wbSetEffectorControl(effectorName, targetCoordinate);
 }
 
 void
 EmotionalMotion::wbEnableEffectorOptimization(const std::string& effectorName, const bool& isEnabled)
 {
+  motionProxy->wbEnableEffectorOptimization(effectorName, isEnabled);
 }
 
 // Self-collision avoidance API
 
 bool
-EmotionalMotion::setCollisionProtectionEnabled(const std::string& ChainName, const bool& Enable)
+EmotionalMotion::setCollisionProtectionEnabled(const std::string& chainName, const bool& enable)
 {
+  return motionProxy->setCollisionProtectionEnabled(chainName, enable);
 }
 
 bool
-EmotionalMotion::getCollisionProtectionEnabled(const std::string& ChainName)
+EmotionalMotion::getCollisionProtectionEnabled(const std::string& chainName)
 {
+  return motionProxy->getCollisionProtectionEnabled(chainName);
 }
 
 std::string
-EmotionalMotion::isCollision(const std::string& ChainName)
+EmotionalMotion::isCollision(const std::string& chainName)
 {
+  return motionProxy->isCollision(chainName);
 }
 
 // External-collision avoidance API
@@ -897,36 +952,54 @@ EmotionalMotion::isCollision(const std::string& ChainName)
 std::vector<float>
 EmotionalMotion::getChainClosestObstaclePosition(const std::string& chainName, const int& frame)
 {
+  // TODO Issue #13 Resolve missing functions in ALMotionProxy
+  return std::vector<float>();
+  //return motionProxy->getChainClosestObstaclePosition(chainName, frame);
 }
 
 bool
 EmotionalMotion::getExternalCollisionProtectionEnabled(const std::string& name)
 {
+  // TODO Issue #13 Resolve missing functions in ALMotionProxy
+  return false;
+  //return motionProxy->getExternalCollisionProtectionEnabled(name);
 }
 
 float
 EmotionalMotion::getOrthogonalSecurityDistance()
 {
+  // TODO Issue #13 Resolve missing functions in ALMotionProxy
+  return 0.0f;
+  //return motionProxy->getOrthogonalSecurityDistance();
 }
 
 float
 EmotionalMotion::getTangentialSecurityDistance()
 {
+  // TODO Issue #13 Resolve missing functions in ALMotionProxy
+  return 0.0f;
+  //return motionProxy->getTangentialSecurityDistance();
 }
 
 void
 EmotionalMotion::setExternalCollisionProtectionEnabled(const std::string& name, const bool& enable)
 {
+  // TODO Issue #13 Resolve missing functions in ALMotionProxy
+  //motionProxy->setExternalCollisionProtectionEnabled(name, enable);
 }
 
 void
 EmotionalMotion::setOrthogonalSecurityDistance(const float& distance)
 {
+  // TODO Issue #13 Resolve missing functions in ALMotionProxy
+  //motionProxy->setOrthogonalSecurityDistance(distance);
 }
 
 void
 EmotionalMotion::setTangentialSecurityDistance(const float& distance)
 {
+  // TODO Issue #13 Resolve missing functions in ALMotionProxy
+  //motionProxy->setTangentialSecurityDistance(distance);
 }
 
 //Fall manager API
@@ -934,23 +1007,27 @@ EmotionalMotion::setTangentialSecurityDistance(const float& distance)
 void
 EmotionalMotion::setFallManagerEnabled(const bool& enable)
 {
+  motionProxy->setFallManagerEnabled(enable);
 }
 
 bool
 EmotionalMotion::getFallManagerEnabled()
 {
+  return motionProxy->getFallManagerEnabled();
 }
 
 // Smart Stiffness API
 
-bool
+void
 EmotionalMotion::setSmartStiffnessEnabled(const bool& enable)
 {
+  motionProxy->setSmartStiffnessEnabled(enable);
 }
 
 bool
 EmotionalMotion::getSmartStiffnessEnabled()
 {
+  return motionProxy->getSmartStiffnessEnabled();
 }
 
 // Diagnosis effect API
@@ -958,11 +1035,13 @@ EmotionalMotion::getSmartStiffnessEnabled()
 void
 EmotionalMotion::setDiagnosisEffectEnabled(const bool& enable)
 {
+  motionProxy->setDiagnosisEffectEnabled(enable);
 }
 
 bool
 EmotionalMotion::getDiagnosisEffectEnabled()
 {
+  return motionProxy->getDiagnosisEffectEnabled();
 }
 
 // Push Recovery API
@@ -970,11 +1049,16 @@ EmotionalMotion::getDiagnosisEffectEnabled()
 void
 EmotionalMotion::setPushRecoveryEnabled(const bool& enable)
 {
+  // TODO Issue #13 Resolve missing functions in ALMotionProxy
+  //motionProxy->setPushRecoveryEnabled(enable);
 }
 
 bool
 EmotionalMotion::getPushRecoveryEnabled(void)
 {
+  // TODO Issue #13 Resolve missing functions in ALMotionProxy
+  return false;
+  //return motionProxy->getPushRecoveryEnabled();
 }
 
 // Idle API
@@ -982,31 +1066,40 @@ EmotionalMotion::getPushRecoveryEnabled(void)
 void
 EmotionalMotion::setIdlePostureEnabled(const std::string& pChainName, const bool& pEnable)
 {
+  // TODO Issue #13 Resolve missing functions in ALMotionProxy
+  //motionProxy->setIdlePostureEnabled(pChainName, pEnable);
 }
 
 bool
 EmotionalMotion::getIdlePostureEnabled(const std::string& pChainName)
 {
+  // TODO Issue #13 Resolve missing functions in ALMotionProxy
+  return false;
+  //return motionProxy->getIdlePostureEnabled(pChainName);
 }
 
 void
 EmotionalMotion::setBreathEnabled(const std::string& pChainName, const bool& pEnable)
 {
+  motionProxy->setBreathEnabled(pChainName, pEnable);
 }
 
 bool
 EmotionalMotion::getBreathEnabled(const std::string& pChainName)
 {
+  return motionProxy->getBreathEnabled(pChainName);
 }
 
 void
 EmotionalMotion::setBreathConfig(const AL::ALValue& pConfig)
 {
+  motionProxy->setBreathConfig(pConfig);
 }
 
 AL::ALValue
 EmotionalMotion::getBreathConfig()
 {
+  return motionProxy->getBreathConfig();
 }
 
 // General tools API
@@ -1014,56 +1107,70 @@ EmotionalMotion::getBreathConfig()
 bool
 EmotionalMotion::areNotificationsEnabled()
 {
+  // TODO Issue #13 Resolve missing functions in ALMotionProxy
+  return false;
+  //motionProxy->areNotificationsEnabled();
 }
 
 std::vector<std::string>
 EmotionalMotion::getBodyNames(const std::string& name)
 {
+  return motionProxy->getBodyNames(name);
 }
 
 std::vector<std::string>
 EmotionalMotion::getSensorNames()
 {
+  return motionProxy->getSensorNames();
 }
 
 AL::ALValue
 EmotionalMotion::getLimits(const std::string& name)
 {
+  return motionProxy->getLimits(name);
 }
 
 AL::ALValue
 EmotionalMotion::getMotionCycleTime()
 {
+  return motionProxy->getMotionCycleTime();
 }
 
 AL::ALValue
 EmotionalMotion::getRobotConfig()
 {
+  return motionProxy->getRobotConfig();
 }
 
 std::string
 EmotionalMotion::getSummary()
 {
+  return motionProxy->getSummary();
 }
 
 float
 EmotionalMotion::getMass(const std::string& pName)
 {
+  return motionProxy->getMass(pName);
 }
 
 std::vector<float>
 EmotionalMotion::getCOM(const std::string& pName, const int& pSpace, const bool& pUseSensorValues)
 {
+  return motionProxy->getCOM(pName, pSpace, pUseSensorValues);
 }
 
 void
 EmotionalMotion::setMotionConfig(const AL::ALValue& config)
 {
+  motionProxy->setMotionConfig(config);
 }
 
 void
 EmotionalMotion::setEnableNotifications(bool enable)
 {
+  // TODO Issue #13 Resolve missing functions in ALMotionProxy
+  //motionProxy->setEnableNotifications(enable);
 }
 
 // Motion task API
@@ -1071,29 +1178,35 @@ EmotionalMotion::setEnableNotifications(bool enable)
 AL::ALValue
 EmotionalMotion::getTaskList()
 {
+  return motionProxy->getTaskList();
 }
 
 bool
 EmotionalMotion::areResourcesAvailable(const std::vector<std::string>& resourceNames)
 {
+  return motionProxy->areResourcesAvailable(resourceNames);
 }
 
 bool
 EmotionalMotion::killTask(const int& motionTaskID)
 {
+  return motionProxy->killTask(motionTaskID);
 }
 
 void
 EmotionalMotion::killTasksUsingResources(const std::vector<std::string>& resourceNames)
 {
+  motionProxy->killTasksUsingResources(resourceNames);
 }
 
 void
 EmotionalMotion::killMove()
 {
+  motionProxy->killMove();
 }
 
 void
 EmotionalMotion::killAll()
 {
+  motionProxy->killAll();
 }

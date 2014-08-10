@@ -3,6 +3,7 @@
 
 # include <iostream>
 # include <alcommon/almodule.h>
+# include <alproxies/almotionproxy.h>
 
 #include "emotion.h"
 
@@ -178,7 +179,7 @@ public:
 
     // Smart Stiffness API
 
-    bool setSmartStiffnessEnabled(const bool& enable);
+    void setSmartStiffnessEnabled(const bool& enable);
 
     bool getSmartStiffnessEnabled();
 
@@ -246,5 +247,9 @@ public:
 
     void killAll();
 
+    typedef boost::shared_ptr<AL::ALMotionProxy> ALMotionProxyPtr;
+
+private:
+    ALMotionProxyPtr motionProxy;
 };
 #endif // EMOTIONAL_MOTION_H
