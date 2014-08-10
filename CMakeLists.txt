@@ -35,4 +35,4 @@ qi_create_test(test_nao-emotional-framework "test.cpp")
 # Tell CMake that myproject depends on ALCOMMON and ALPROXIES
 # This will set the libraries to link myproject with,
 # the include paths, and so on
-qi_use_lib(nao-emotional-framework ALCOMMON ALPROXIES)
+qi_use_lib(nao-emotional-framework ALCOMMON ALPROXIES BOOST)
