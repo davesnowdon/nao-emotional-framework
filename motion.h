@@ -3,6 +3,9 @@
 
 # include <iostream>
 # include <alcommon/almodule.h>
+# include <alproxies/almotionproxy.h>
+
+#include "emotion.h"
 
 namespace AL
 {
@@ -18,8 +21,7 @@ namespace AL
 class EmotionalMotion : public AL::ALModule
 {
 public:
-  EmotionalMotion(boost::shared_ptr<AL::ALBroker> broker,
-           const std::string &name);
+  EmotionalMotion(boost::shared_ptr<AL::ALBroker> broker);
 
   virtual ~EmotionalMotion();
 
@@ -69,11 +71,11 @@ public:
 
     void move(const float& x, const float& y, const float& theta);
 
-    void move(const float& x, const float& y, const float& theta, const AL::ALValue moveConfig);
+    void move(const float& x, const float& y, const float& theta, const AL::ALValue& moveConfig);
 
     void moveToward(const float& x, const float& y, const float& theta);
 
-    void moveToward(const float& x, const float& y, const float& theta, const AL::ALValue moveConfig);
+    void moveToward(const float& x, const float& y, const float& theta, const AL::ALValue& moveConfig);
 
     void moveTo(const float& x, const float& y, const float& theta);
 
@@ -177,7 +179,7 @@ public:
 
     // Smart Stiffness API
 
-    bool setSmartStiffnessEnabled(const bool& enable);
+    void setSmartStiffnessEnabled(const bool& enable);
 
     bool getSmartStiffnessEnabled();
 
@@ -245,5 +247,9 @@ public:
 
     void killAll();
 
+    typedef boost::shared_ptr<AL::ALMotionProxy> ALMotionProxyPtr;
+
+private:
+    ALMotionProxyPtr motionProxy;
 };
 #endif // EMOTIONAL_MOTION_H

@@ -3,48 +3,25 @@
 #include <iostream>
 #include <alcommon/albroker.h>
 
-Emotion::Emotion(boost::shared_ptr<AL::ALBroker> broker,
-                   const std::string& name)
-  : AL::ALModule(broker, name)
+Emotion::Emotion(boost::shared_ptr<AL::ALBroker> broker)
+  : AL::ALModule(broker, EMOTION_MODULE)
 {
-  // Describe the module here. This will appear on the webpage
-  setModuleDescription("My own custom module.");
+  mModuleNames[MOTION_MODULE] = MOTION_MODULE_ADAPTOR;
+  mModuleNames[TTS_MODULE] = TTS_MODULE_ADAPTOR;
+  mModuleNames[LED_MODULE] = LED_MODULE_ADAPTOR;
 
-  /**
-   * Define callable methods with their descriptions:
-   * This makes the method available to other cpp modules
-   * and to python.
-   * The name given will be the one visible from outside the module.
-   * This method has no parameters or return value to describe
-   * functionName(<method_name>, <class_name>, <method_description>);
-   * BIND_METHOD(<method_reference>);
-   */
-  functionName("printHello", getName(), "Print hello to the world");
-  BIND_METHOD(Emotion::printHello);
+  // Describe the module here. This will appear on the webpage
+  setModuleDescription("This module provides access to the emotional model and the adaptor modules that wrap the standard modules");
 
   /**
    * addParam(<attribut_name>, <attribut_descrption>);
    * This enables to document the parameters of the method.
    * It is not compulsory to write this line.
    */
-  functionName("printWord", getName(), "Print a given word.");
-  addParam("word", "The word to be print.");
-  BIND_METHOD(Emotion::printWord);
-
-  /**
-   * setReturn(<return_name>, <return_description>);
-   * This enables to document the return of the method.
-   * It is not compulsory to write this line.
-   */
-  functionName("returnTrue", getName(), "Just return true");
-  setReturn("boolean", "return true");
-  BIND_METHOD(Emotion::returnTrue);
-
-  // If you had other methods, you could bind them here...
-  /**
-   * Bound methods can only take const ref arguments of basic types,
-   * or AL::ALValue or return basic types or an AL::ALValue.
-   */
+  functionName("getProxyName", getName(), "Return the name of the module to use instead of the named standard proxy");
+  addParam("std::string", "The name of the standard module");
+  setReturn("std::string", "The name of the module to use instead");
+  BIND_METHOD(Emotion::getProxyName);
 }
 
 Emotion::~Emotion()
@@ -53,25 +30,21 @@ Emotion::~Emotion()
 
 void Emotion::init()
 {
-  /**
-   * Init is called just after construction.
-   * Do something or not
-   */
-  std::cout << returnTrue() << std::endl;
+
 }
 
 
-void Emotion::printHello()
-{
-  std::cout << "Hello!" << std::endl;
-}
 
-void Emotion::printWord(const std::string &word)
+std::string
+Emotion::getProxyName(const std::string& proxyName)
 {
-  std::cout << word << std::endl;
-}
-
-bool Emotion::returnTrue()
-{
-  return true;
+  std::map<std::string, std::string>::iterator it;
+  it = mModuleNames.find(proxyName);
+  if (it == mModuleNames.end()) {
+    /* module name not found in map so return name unchanged */
+    return proxyName;
+  } else {
+    /* return name of adaptor for this module */
+    return it->second;
+  }
 }

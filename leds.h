@@ -3,6 +3,9 @@
 
 # include <iostream>
 # include <alcommon/almodule.h>
+# include <alproxies/alledsproxy.h>
+
+#include "emotion.h"
 
 namespace AL
 {
@@ -18,8 +21,7 @@ namespace AL
 class EmotionalLeds : public AL::ALModule
 {
 public:
-  EmotionalLeds(boost::shared_ptr<AL::ALBroker> broker,
-           const std::string &name);
+  EmotionalLeds(boost::shared_ptr<AL::ALBroker> broker);
 
   virtual ~EmotionalLeds();
 
@@ -63,5 +65,9 @@ public:
 
     void setIntensity(const std::string& name, const float& intensity);
 
+    typedef boost::shared_ptr<AL::ALLedsProxy> ALLedsProxyPtr;
+
+private:
+    ALLedsProxyPtr ledProxy;
 };
 #endif // EMOTIONAL_LEDS_H

@@ -3,9 +3,8 @@
 #include <iostream>
 #include <alcommon/albroker.h>
 
-EmotionalLeds::EmotionalLeds(boost::shared_ptr<AL::ALBroker> broker,
-                   const std::string& name)
-  : AL::ALModule(broker, name)
+EmotionalLeds::EmotionalLeds(boost::shared_ptr<AL::ALBroker> broker)
+  : AL::ALModule(broker, LED_MODULE_ADAPTOR)
 {
   setModuleDescription("Emotionally modified LEDs");
 
@@ -92,6 +91,8 @@ EmotionalLeds::EmotionalLeds(boost::shared_ptr<AL::ALBroker> broker,
   addParam("intensity", "");
   BIND_METHOD(EmotionalLeds::setIntensity);
 
+  // TODO add error checking for proxy creation
+  ledProxy = ALLedsProxyPtr(new AL::ALLedsProxy(broker));
 }
 
 EmotionalLeds::~EmotionalLeds()
@@ -106,100 +107,117 @@ EmotionalLeds::init()
 void
 EmotionalLeds::createGroup(const std::string& groupName, const std::vector<std::string>& ledNames)
 {
+  ledProxy->createGroup(groupName, ledNames);
 }
 
 
 void
 EmotionalLeds::earLedsSetAngle(const int& degrees, const float& duration, const bool& leaveOnAtEnd)
 {
+  ledProxy->earLedsSetAngle(degrees, duration, leaveOnAtEnd);
 }
 
 
 void
 EmotionalLeds::fade(const std::string& name, const float& intensity, const float& duration)
 {
+  ledProxy->fade(name, intensity, duration);
 }
 
 
 void
 EmotionalLeds::fadeListRGB(const std::string& name, const AL::ALValue& rgbList, const AL::ALValue& timeList)
 {
+  ledProxy->fadeListRGB(name, rgbList, timeList);
 }
 
 
 void
 EmotionalLeds::fadeRGB(const std::string& name, const int& rgb, const float& duration)
 {
+  ledProxy->fadeRGB(name, rgb, duration);
 }
 
 
 AL::ALValue
 EmotionalLeds::getIntensity(const std::string& name)
 {
+  return ledProxy->getIntensity(name);
 }
 
 
 std::vector<std::string>
 EmotionalLeds::listGroup(const std::string& groupName)
 {
+  return ledProxy->listGroup(groupName);
 }
 
 
 std::vector<std::string>
 EmotionalLeds::listGroups()
 {
+  return ledProxy->listGroups();
 }
 
 
 std::vector<std::string>
 EmotionalLeds::listLED(const std::string& name)
 {
+  return ledProxy->listLED(name);
 }
 
 
 std::vector<std::string>
 EmotionalLeds::listLEDs()
 {
+  return ledProxy->listLEDs();
 }
 
 
 void
 EmotionalLeds::off(const std::string& name)
 {
+  ledProxy->off(name);
 }
 
 
 void
 EmotionalLeds::on(const std::string& name)
 {
+  ledProxy->on(name);
 }
 
 
 void
 EmotionalLeds::randomEyes(const float& duration)
 {
+  ledProxy->randomEyes(duration);
 }
 
 
 void
 EmotionalLeds::rasta(const float& duration)
 {
+  ledProxy->rasta(duration);
 }
 
 
 void
 EmotionalLeds::reset(const std::string& name)
 {
+  ledProxy->reset(name);
 }
 
 
 void
 EmotionalLeds::rotateEyes(const int& rgb, const float& timeForRotation, const float& totalDuration)
 {
+  ledProxy->rotateEyes(rgb, timeForRotation, totalDuration);
 }
 
 
 void
 EmotionalLeds::setIntensity(const std::string& name, const float& intensity)
 {
+  ledProxy->setIntensity(name, intensity);
 }
