@@ -21,9 +21,6 @@
    <descriptions>
     <description lang="en_US">Installers the native code for the NAO Emotional Framework</description>
    </descriptions>
-   <triggerSentences/>
-   <loadingResponses/>
-   <autonomous/>
    <permissions/>
   </behaviorContent>
  </contents>
