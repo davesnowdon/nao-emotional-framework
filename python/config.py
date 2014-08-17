@@ -1,3 +1,5 @@
+from naoqi import ALProxy
+
 def getEmotionalProxy(proxyName):
     emotions = ALProxy("Emotion")
     adaptorName = emotions.getProxyName(proxyName)
