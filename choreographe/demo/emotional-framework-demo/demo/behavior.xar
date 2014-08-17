@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ChoregrapheProject xmlns="http://www.aldebaran-robotics.com/schema/choregraphe/project.xsd" xar_version="3">
+    <Box name="root" id="-1" localization="8" tooltip="Root box of Choregraphe&apos;s behavior. Highest level possible." x="0" y="0">
+        <bitmap>media/images/box/root.png</bitmap>
+        <script language="4">
+            <content>
+                <![CDATA[]]>
+</content>
+        </script>
+        <Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" />
+        <Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" />
+        <Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" />
+        <Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" />
+        <Timeline enable="0">
+            <BehaviorLayer name="behavior_layer1">
+                <BehaviorKeyframe name="keyframe1" index="1">
+                    <Diagram>
+                        <Box name="EmotionalFrameworkSetup" id="1" localization="8" tooltip="This box installs python functions to make it easier to obtain adapted proxies." x="160" y="101">
+                            <bitmap>media/images/box/box-python-script.png</bitmap>
+                            <script language="4">
+                                <content>
+                                    <![CDATA[from os.path import dirname, basename, splitext
+from tempfile import NamedTemporaryFile
+
+class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self)
+        self.tmpFile = None
+
+    def onLoad(self):
+        pass
+
+    def onUnload(self):
+        pass
+
+    def onInput_onStart(self):
+        self.emotionalSetup()
+        self.onStopped()
+
+    def onInput_onStop(self):
+        self.onUnload()
+        self.onStopped()
+
+    def emotionalSetup(self):
+        """
+        We want to be able to package this box in a library
+        and so can't depend on external files. So we generate
+        the file on-the-fly and import it into the global scope
+        after first checking that the functions do not already exist
+        """
+        try:
+            dummyName = getEmotionalProxy("ALMotion")
+        except NameError:
+            helperFunctionNames = "getEmotionalProxy, getEmotionalMotion, getEmotionalTTS, getEmotionalAnimatedTTS, getEmotionalLEDs"
+            helperFunctions = """
+def getEmotionalProxy(proxyName):
+    emotions = ALProxy('Emotion')
+    adaptorName = emotions.getProxyName(proxyName)
+    return ALProxy(adaptorName)
+
+def getEmotionalMotion():
+    return getEmotionalProxy('ALMotion');
+
+def getEmotionalTTS():
+    return getEmotionalProxy('ALTextToSpeech');
+
+def getEmotionalAnimatedTTS():
+    return getEmotionalProxy('ALAnimatedSpeech');
+
+def getEmotionalLEDs():
+    return getEmotionalProxy('ALLeds');
+"""
+        self.tmpFile = NamedTemporaryFile(suffix='.py', delete=False)
+        self.tmpFile.write(helperFunctions)
+        ext_path = dirname(self.tmpFile.name)
+        (bn, ext) = splitext(basename(self.tmpFile.name))
+        pythonbridge = ALProxy("ALPythonBridge")
+        # ensure the location of the temporary file is somewhere python will look
+        pythonbridge.evalFull("import sys; sys.path.append('{path}')".format(path=ext_path))
+        # put the new functions into the global scope
+        pythonbridge.evalFull("from {bn} import {fns}".format(bn=bn, fns=helperFunctionNames))]]>
+</content>
+                            </script>
+                            <Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" />
+                            <Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" />
+                            <Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" />
+                            <Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" />
+                        </Box>
+                        <Box name="MotionExample" id="2" localization="8" tooltip="" x="168" y="291">
+                            <bitmap>media/images/box/box-python-script.png</bitmap>
+                            <script language="4">
+                                <content>
+                                    <![CDATA[class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self)
+
+    def onLoad(self):
+        self.names = list()
+        self.times = list()
+        self.keys = list()
+
+        self.names.append("HeadPitch")
+        self.times.append([0.8, 1.56, 2.24, 2.8, 3.48, 4.6])
+        self.keys.append([[0.29602, [3, -0.266667, 0], [3, 0.253333, 0]], [-0.170316, [3, -0.253333, 0.111996], [3, 0.226667, -0.100207]], [-0.340591, [3, -0.226667, 0], [3, 0.186667, 0]], [-0.0598679, [3, -0.186667, 0], [3, 0.226667, 0]], [-0.193327, [3, -0.226667, 0], [3, 0.373333, 0]], [-0.01078, [3, -0.373333, 0], [3, 0, 0]]])
+
+        self.names.append("HeadYaw")
+        self.times.append([0.8, 1.56, 2.24, 2.8, 3.48, 4.6])
+        self.keys.append([[-0.135034, [3, -0.266667, 0], [3, 0.253333, 0]], [-0.351328, [3, -0.253333, 0.0493864], [3, 0.226667, -0.0441878]], [-0.415757, [3, -0.226667, 0.00372364], [3, 0.186667, -0.00306653]], [-0.418823, [3, -0.186667, 0.00306653], [3, 0.226667, -0.00372364]], [-0.520068, [3, -0.226667, 0], [3, 0.373333, 0]], [-0.375872, [3, -0.373333, 0], [3, 0, 0]]])
+
+        self.names.append("LElbowRoll")
+        self.times.append([0.72, 1.48, 2.16, 2.72, 3.4, 4.52])
+        self.keys.append([[-1.37902, [3, -0.24, 0], [3, 0.253333, 0]], [-1.29005, [3, -0.253333, -0.0345436], [3, 0.226667, 0.0309074]], [-1.18267, [3, -0.226667, 0], [3, 0.186667, 0]], [-1.24863, [3, -0.186667, 0.0205524], [3, 0.226667, -0.0249565]], [-1.3192, [3, -0.226667, 0], [3, 0.373333, 0]], [-1.18421, [3, -0.373333, 0], [3, 0, 0]]])
+
+        self.names.append("LElbowYaw")
+        self.times.append([0.72, 1.48, 2.16, 2.72, 3.4, 4.52])
+        self.keys.append([[-0.803859, [3, -0.24, 0], [3, 0.253333, 0]], [-0.691876, [3, -0.253333, -0.0137171], [3, 0.226667, 0.0122732]], [-0.679603, [3, -0.226667, -0.0122732], [3, 0.186667, 0.0101073]], [-0.610574, [3, -0.186667, 0], [3, 0.226667, 0]], [-0.753235, [3, -0.226667, 0], [3, 0.373333, 0]], [-0.6704, [3, -0.373333, 0], [3, 0, 0]]])
+
+        self.names.append("LHand")
+        self.times.append([1.48, 4.52])
+        self.keys.append([[0.238207, [3, -0.493333, 0], [3, 1.01333, 0]], [0.240025, [3, -1.01333, 0], [3, 0, 0]]])
+
+        self.names.append("LShoulderPitch")
+        self.times.append([0.72, 1.48, 2.16, 2.72, 3.4, 4.52])
+        self.keys.append([[1.11824, [3, -0.24, 0], [3, 0.253333, 0]], [0.928028, [3, -0.253333, 0], [3, 0.226667, 0]], [0.9403, [3, -0.226667, 0], [3, 0.186667, 0]], [0.862065, [3, -0.186667, 0], [3, 0.226667, 0]], [0.897349, [3, -0.226667, 0], [3, 0.373333, 0]], [0.842125, [3, -0.373333, 0], [3, 0, 0]]])
+
+        self.names.append("LShoulderRoll")
+        self.times.append([0.72, 1.48, 2.16, 2.72, 3.4, 4.52])
+        self.keys.append([[0.363515, [3, -0.24, 0], [3, 0.253333, 0]], [0.226991, [3, -0.253333, 0.0257175], [3, 0.226667, -0.0230104]], [0.20398, [3, -0.226667, 0], [3, 0.186667, 0]], [0.217786, [3, -0.186667, -0.00669692], [3, 0.226667, 0.00813198]], [0.248467, [3, -0.226667, 0], [3, 0.373333, 0]], [0.226991, [3, -0.373333, 0], [3, 0, 0]]])
+
+        self.names.append("LWristYaw")
+        self.times.append([1.48, 4.52])
+        self.keys.append([[0.147222, [3, -0.493333, 0], [3, 1.01333, 0]], [0.11961, [3, -1.01333, 0], [3, 0, 0]]])
+
+        self.names.append("RElbowRoll")
+        self.times.append([0.64, 1.4, 1.68, 2.08, 2.4, 2.64, 3.04, 3.32, 3.72, 4.44])
+        self.keys.append([[1.38524, [3, -0.213333, 0], [3, 0.253333, 0]], [0.242414, [3, -0.253333, 0], [3, 0.0933333, 0]], [0.349066, [3, -0.0933333, -0.0949577], [3, 0.133333, 0.135654]], [0.934249, [3, -0.133333, 0], [3, 0.106667, 0]], [0.680678, [3, -0.106667, 0.141383], [3, 0.08, -0.106037]], [0.191986, [3, -0.08, 0], [3, 0.133333, 0]], [0.261799, [3, -0.133333, -0.0698132], [3, 0.0933333, 0.0488692]], [0.707216, [3, -0.0933333, -0.103967], [3, 0.133333, 0.148524]], [1.01927, [3, -0.133333, -0.0664734], [3, 0.24, 0.119652]], [1.26559, [3, -0.24, 0], [3, 0, 0]]])
+
+        self.names.append("RElbowYaw")
+        self.times.append([0.64, 1.4, 2.08, 2.64, 3.32, 3.72, 4.44])
+        self.keys.append([[-0.312978, [3, -0.213333, 0], [3, 0.253333, 0]], [0.564471, [3, -0.253333, 0], [3, 0.226667, 0]], [0.391128, [3, -0.226667, 0.0395378], [3, 0.186667, -0.0325606]], [0.348176, [3, -0.186667, 0], [3, 0.226667, 0]], [0.381923, [3, -0.226667, -0.0337477], [3, 0.133333, 0.0198516]], [0.977384, [3, -0.133333, 0], [3, 0.24, 0]], [0.826783, [3, -0.24, 0], [3, 0, 0]]])
+
+        self.names.append("RHand")
+        self.times.append([1.4, 3.32, 4.44])
+        self.keys.append([[0.853478, [3, -0.466667, 0], [3, 0.64, 0]], [0.854933, [3, -0.64, 0], [3, 0.373333, 0]], [0.425116, [3, -0.373333, 0], [3, 0, 0]]])
+
+        self.names.append("RShoulderPitch")
+        self.times.append([0.64, 1.4, 2.08, 2.64, 3.32, 4.44])
+        self.keys.append([[0.247016, [3, -0.213333, 0], [3, 0.253333, 0]], [-1.17193, [3, -0.253333, 0], [3, 0.226667, 0]], [-1.0891, [3, -0.226667, 0], [3, 0.186667, 0]], [-1.26091, [3, -0.186667, 0], [3, 0.226667, 0]], [-1.14892, [3, -0.226667, -0.111982], [3, 0.373333, 0.184441]], [1.02015, [3, -0.373333, 0], [3, 0, 0]]])
+
+        self.names.append("RShoulderRoll")
+        self.times.append([0.64, 1.4, 2.08, 2.64, 3.32, 4.44])
+        self.keys.append([[-0.242414, [3, -0.213333, 0], [3, 0.253333, 0]], [-0.954191, [3, -0.253333, 0], [3, 0.226667, 0]], [-0.460242, [3, -0.226667, 0], [3, 0.186667, 0]], [-0.960325, [3, -0.186667, 0], [3, 0.226667, 0]], [-0.328317, [3, -0.226667, -0.0474984], [3, 0.373333, 0.0782326]], [-0.250085, [3, -0.373333, 0], [3, 0, 0]]])
+
+        self.names.append("RWristYaw")
+        self.times.append([1.4, 3.32, 4.44])
+        self.keys.append([[-0.312978, [3, -0.466667, 0], [3, 0.64, 0]], [-0.303775, [3, -0.64, -0.00920312], [3, 0.373333, 0.00536849]], [0.182504, [3, -0.373333, 0], [3, 0, 0]]])
+
+    def onUnload(self):
+        pass
+
+    def onInput_onStart(self):
+        try:
+            motion = getEmotionalMotion()
+            motion.angleInterpolationBezier(self.names, self.times, self.keys)
+        except NameError:
+            self.log("Failed to get emotional motion proxy")
+        self.onStopped()
+
+
+    def onInput_onStop(self):
+        self.onUnload()
+        self.onStopped()]]>
+</content>
+                            </script>
+                            <Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" />
+                            <Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" />
+                            <Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" />
+                            <Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" />
+                        </Box>
+                        <Box name="SpeechExample" id="3" localization="8" tooltip="" x="357" y="292">
+                            <bitmap>media/images/box/box-python-script.png</bitmap>
+                            <script language="4">
+                                <content>
+                                    <![CDATA[class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self)
+
+    def onLoad(self):
+        #put initialization code here
+        pass
+
+    def onUnload(self):
+        #put clean-up code here
+        pass
+
+    def onInput_onStart(self):
+        tts = getEmotionalTTS()
+        tts.say("Now I am speaking emotionally")
+        self.onStopped() #activate the output of the box
+
+    def onInput_onStop(self):
+        self.onUnload() #it is recommended to reuse the clean-up as the box is stopped
+        self.onStopped() #activate the output of the box]]>
+</content>
+                            </script>
+                            <Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" />
+                            <Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" />
+                            <Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" />
+                            <Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" />
+                        </Box>
+                        <Box name="LEDExample" id="5" localization="8" tooltip="The selected LEDs flash on and off during the time defined in parameters." x="547" y="299">
+                            <bitmap>media/images/box/interaction/LED.png</bitmap>
+                            <script language="4">
+                                <content>
+                                    <![CDATA[]]>
+</content>
+                            </script>
+                            <Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" />
+                            <Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" />
+                            <Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" />
+                            <Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" />
+                            <Parameter name="LEDs group" inherits_from_parent="0" content_type="3" value="FaceLeds" default_value="FaceLeds" custom_choice="1" tooltip="The group of LEDs which intensity is to set.&#x0A;&#x0A;Note: You can call the listGroups() method of ALMotion to get the name of LEDs&#x0A;groups which are not listed here." id="5">
+                                <Choice value="AllLeds" />
+                                <Choice value="BrainLeds" />
+                                <Choice value="EarLeds" />
+                                <Choice value="FaceLeds" />
+                                <Choice value="FeetLeds" />
+                                <Choice value="LeftEarLeds" />
+                                <Choice value="LeftFaceLeds" />
+                                <Choice value="LeftFootLeds" />
+                                <Choice value="RightEarLeds" />
+                                <Choice value="RightFaceLeds" />
+                                <Choice value="RightFootLeds" />
+                            </Parameter>
+                            <Parameter name="Time to flash on (s)" inherits_from_parent="0" content_type="2" value="0.5" default_value="0.5" min="0.1" max="2" tooltip="How much time to go to the intensity in seconds." id="6" />
+                            <Parameter name="Time to flash off (s)" inherits_from_parent="0" content_type="2" value="0.5" default_value="0.5" min="0.1" max="2" tooltip="How much time to go to the intensity in seconds." id="7" />
+                            <Parameter name="Animation duration (s)" inherits_from_parent="0" content_type="2" value="10" default_value="10" min="0.1" max="5000" tooltip="Duration of the animation of LEDs." id="8" />
+                            <Timeline enable="0">
+                                <BehaviorLayer name="behavior_layer1">
+                                    <BehaviorKeyframe name="keyframe1" index="1">
+                                        <Diagram>
+                                            <Box name="Set LEDs" id="3" localization="8" tooltip="Set the intensity of the LEDs of a given group." x="176" y="119">
+                                                <bitmap>media/images/box/interaction/LED.png</bitmap>
+                                                <script language="4">
+                                                    <content>
+                                                        <![CDATA[class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self, False)
+
+    def onLoad(self):
+        self.leds = getEmotionalLEDs()
+
+    def onUnload(self):
+        #~ puts code for box cleanup here
+        pass
+
+    def onInput_onSet(self):
+        self.leds.fade(self.getParameter("LEDs group"), self.getParameter("Intensity (%)")/100., self.getParameter("Time to flash on (s)"))
+        self.onReady() # activate output of the box]]>
+</content>
+                                                </script>
+                                                <Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" />
+                                                <Input name="onSet" type="1" type_size="1" nature="2" inner="0" tooltip="When this input is stimulated, the intensity of all the LEDs from the group is&#x0A;set to the intensity parameter value." id="2" />
+                                                <Output name="onReady" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when LEDs intensity has been set." id="3" />
+                                                <Parameter name="LEDs group" inherits_from_parent="1" content_type="3" value="FaceLeds" default_value="FaceLeds" custom_choice="1" tooltip="The group of LEDs which intensity is to set.&#x0A;&#x0A;Note: You can call the listGroups() method of ALMotion to get the name of LEDs&#x0A;groups which are not listed here." id="4">
+                                                    <Choice value="AllLeds" />
+                                                    <Choice value="BrainLeds" />
+                                                    <Choice value="EarLeds" />
+                                                    <Choice value="FaceLeds" />
+                                                    <Choice value="FeetLeds" />
+                                                    <Choice value="LeftEarLeds" />
+                                                    <Choice value="LeftFaceLeds" />
+                                                    <Choice value="LeftFootLeds" />
+                                                    <Choice value="RightEarLeds" />
+                                                    <Choice value="RightFaceLeds" />
+                                                    <Choice value="RightFootLeds" />
+                                                </Parameter>
+                                                <Parameter name="Intensity (%)" inherits_from_parent="0" content_type="1" value="100" default_value="100" min="0" max="100" tooltip="Intensity all the LEDs from the group is set to." id="5" />
+                                                <Parameter name="Time to flash on (s)" inherits_from_parent="1" content_type="2" value="0.5" default_value="0.5" min="0.1" max="2" tooltip="How much time to go to the intensity in seconds." id="6" />
+                                            </Box>
+                                            <Box name="Set LEDs" id="1" localization="8" tooltip="Set the intensity of the LEDs of a given group." x="180" y="262">
+                                                <bitmap>media/images/box/interaction/LED.png</bitmap>
+                                                <script language="4">
+                                                    <content>
+                                                        <![CDATA[class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self, False)
+
+    def onLoad(self):
+        self.leds = getEmotionalLEDs()
+
+    def onUnload(self):
+        #~ puts code for box cleanup here
+        pass
+
+    def onInput_onSet(self):
+        self.leds.fade(self.getParameter("LEDs group"), self.getParameter("Intensity (%)")/100., self.getParameter("Time to flash off (s)"))
+        self.onReady() # activate output of the box]]>
+</content>
+                                                </script>
+                                                <Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" />
+                                                <Input name="onSet" type="1" type_size="1" nature="2" inner="0" tooltip="When this input is stimulated, the intensity of all the LEDs from the group is&#x0A;set to the intensity parameter value." id="2" />
+                                                <Output name="onReady" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when LEDs intensity has been set." id="3" />
+                                                <Parameter name="LEDs group" inherits_from_parent="1" content_type="3" value="FaceLeds" default_value="FaceLeds" custom_choice="1" tooltip="The group of LEDs which intensity is to set.&#x0A;&#x0A;Note: You can call the listGroups() method of ALMotion to get the name of LEDs&#x0A;groups which are not listed here." id="4">
+                                                    <Choice value="AllLeds" />
+                                                    <Choice value="BrainLeds" />
+                                                    <Choice value="EarLeds" />
+                                                    <Choice value="FaceLeds" />
+                                                    <Choice value="FeetLeds" />
+                                                    <Choice value="LeftEarLeds" />
+                                                    <Choice value="LeftFaceLeds" />
+                                                    <Choice value="LeftFootLeds" />
+                                                    <Choice value="RightEarLeds" />
+                                                    <Choice value="RightFaceLeds" />
+                                                    <Choice value="RightFootLeds" />
+                                                </Parameter>
+                                                <Parameter name="Intensity (%)" inherits_from_parent="0" content_type="1" value="0" default_value="100" min="0" max="100" tooltip="Intensity all the LEDs from the group is set to." id="5" />
+                                                <Parameter name="Time to flash off (s)" inherits_from_parent="1" content_type="2" value="0.5" default_value="0.5" min="0.1" max="2" tooltip="How much time to go to the intensity in seconds." id="6" />
+                                            </Box>
+                                            <Box name="Set LEDs" id="4" localization="8" tooltip="Set the intensity of the LEDs of a given group." x="308" y="12">
+                                                <bitmap>media/images/box/interaction/LED.png</bitmap>
+                                                <script language="4">
+                                                    <content>
+                                                        <![CDATA[class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self, False)
+
+    def onLoad(self):
+        self.leds = getEmotionalLEDs()
+
+    def onUnload(self):
+        #~ puts code for box cleanup here
+        pass
+
+    def onInput_onSet(self):
+        self.leds.fade(self.getParameter("LEDs group"), self.getParameter("Intensity (%)")/100., 0.1)
+        self.onReady() # activate output of the box]]>
+</content>
+                                                </script>
+                                                <Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" />
+                                                <Input name="onSet" type="1" type_size="1" nature="2" inner="0" tooltip="When this input is stimulated, the intensity of all the LEDs from the group is&#x0A;set to the intensity parameter value." id="2" />
+                                                <Output name="onReady" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when LEDs intensity has been set." id="3" />
+                                                <Parameter name="LEDs group" inherits_from_parent="1" content_type="3" value="FaceLeds" default_value="FaceLeds" custom_choice="1" tooltip="The group of LEDs which intensity is to set.&#x0A;&#x0A;Note: You can call the listGroups() method of ALMotion to get the name of LEDs&#x0A;groups which are not listed here." id="4">
+                                                    <Choice value="AllLeds" />
+                                                    <Choice value="BrainLeds" />
+                                                    <Choice value="EarLeds" />
+                                                    <Choice value="FaceLeds" />
+                                                    <Choice value="FeetLeds" />
+                                                    <Choice value="LeftEarLeds" />
+                                                    <Choice value="LeftFaceLeds" />
+                                                    <Choice value="LeftFootLeds" />
+                                                    <Choice value="RightEarLeds" />
+                                                    <Choice value="RightFaceLeds" />
+                                                    <Choice value="RightFootLeds" />
+                                                </Parameter>
+                                                <Parameter name="Intensity (%)" inherits_from_parent="0" content_type="1" value="100" default_value="100" min="0" max="100" tooltip="Intensity all the LEDs from the group is set to." id="5" />
+                                            </Box>
+                                            <Box name="Wait" id="6" localization="8" tooltip="Wait a moment before sending a signal on the output. &#x0A;Can be stopped anytime. &#x0A;Stimulating the input again before output is activated restarts the waiting period.&#x0A;" x="165" y="14">
+                                                <bitmap>media/images/box/wait.png</bitmap>
+                                                <script language="4">
+                                                    <content>
+                                                        <![CDATA[class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self, False)
+
+    def onLoad(self):
+        self.waiting = None
+
+    def onUnload(self):
+        self.cancelWaiting()
+
+    def triggerOutput(self):
+        self.timerOutput()
+
+    def cancelWaiting(self):
+        if self.waiting:
+            self.waiting.cancel()
+        self.waiting = None
+
+    def onInput_onStart(self):
+        self.cancelWaiting()
+        import qi
+        self.waiting = qi.async(self.triggerOutput, delay=int(self.getParameter("Animation duration (s)") * 1000 * 1000))
+
+    def onInput_onStop(self):
+        if self.waiting and self.waiting.isRunning():
+            self.timerOutput()
+        self.onUnload()]]>
+</content>
+                                                </script>
+                                                <Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" />
+                                                <Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Start the Wait box with the configured timeout value." id="2" />
+                                                <Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Stop the wait and stimulate the output." id="3" />
+                                                <Output name="timerOutput" type="1" type_size="1" nature="1" inner="0" tooltip="Send a bang once time set in parameters is elapsed, or if the box is stopped." id="4" />
+                                                <Parameter name="Animation duration (s)" inherits_from_parent="1" content_type="2" value="10" default_value="10" min="0.1" max="5000" tooltip="Duration of the animation of LEDs." id="5" />
+                                            </Box>
+                                            <Link inputowner="3" indexofinput="2" outputowner="0" indexofoutput="2" />
+                                            <Link inputowner="1" indexofinput="2" outputowner="3" indexofoutput="3" />
+                                            <Link inputowner="3" indexofinput="2" outputowner="1" indexofoutput="3" />
+                                            <Link inputowner="0" indexofinput="4" outputowner="4" indexofoutput="3" />
+                                            <Link inputowner="6" indexofinput="2" outputowner="0" indexofoutput="2" />
+                                            <Link inputowner="4" indexofinput="2" outputowner="6" indexofoutput="4" />
+                                        </Diagram>
+                                    </BehaviorKeyframe>
+                                </BehaviorLayer>
+                            </Timeline>
+                        </Box>
+                        <Link inputowner="1" indexofinput="2" outputowner="0" indexofoutput="2" />
+                        <Link inputowner="2" indexofinput="2" outputowner="1" indexofoutput="4" />
+                        <Link inputowner="3" indexofinput="2" outputowner="2" indexofoutput="4" />
+                        <Link inputowner="5" indexofinput="2" outputowner="3" indexofoutput="4" />
+                        <Link inputowner="0" indexofinput="4" outputowner="5" indexofoutput="4" />
+                    </Diagram>
+                </BehaviorKeyframe>
+            </BehaviorLayer>
+        </Timeline>
+    </Box>
+</ChoregrapheProject>
