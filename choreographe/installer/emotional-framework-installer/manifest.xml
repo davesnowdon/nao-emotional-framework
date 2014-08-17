@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<package version="0.0.1" uuid="emotional-framework-installer-b7a6d6">
+ <names>
+  <name lang="en_US">Emotional Installer</name>
+ </names>
+ <descriptions>
+  <description lang="en_US">Installs the native components for the NAO emotional framework so that they are available for use by all applications running on the robot.</description>
+ </descriptions>
+ <supportedLanguages>
+  <language>en_US</language>
+ </supportedLanguages>
+ <descriptionLanguages>
+  <language>en_US</language>
+ </descriptionLanguages>
+ <contents>
+  <behaviorContent path="installer">
+   <nature>solitary</nature>
+   <names>
+    <name lang="en_US">installer</name>
+   </names>
+   <descriptions>
+    <description lang="en_US">Installers the native code for the NAO Emotional Framework</description>
+   </descriptions>
+   <triggerSentences/>
+   <loadingResponses/>
+   <autonomous/>
+   <permissions/>
+  </behaviorContent>
+ </contents>
+</package>
