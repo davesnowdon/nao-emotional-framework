@@ -25,7 +25,7 @@ from tempfile import NamedTemporaryFile
 class MyClass(GeneratedClass):
     def __init__(self):
         GeneratedClass.__init__(self)
-        self.tmpFile = None
+        self.tmpFileName = None
 
     def onLoad(self):
         pass
@@ -50,9 +50,12 @@ class MyClass(GeneratedClass):
         """
         try:
             dummyName = getEmotionalProxy("ALMotion")
+            self.log("emotional helper functions already defined")
         except NameError:
             helperFunctionNames = "getEmotionalProxy, getEmotionalMotion, getEmotionalTTS, getEmotionalAnimatedTTS, getEmotionalLEDs"
             helperFunctions = """
+from naoqi import ALProxy
+
 def getEmotionalProxy(proxyName):
     emotions = ALProxy('Emotion')
     adaptorName = emotions.getProxyName(proxyName)
@@ -70,15 +73,21 @@ def getEmotionalAnimatedTTS():
 def getEmotionalLEDs():
     return getEmotionalProxy('ALLeds');
 """
-        self.tmpFile = NamedTemporaryFile(suffix='.py', delete=False)
-        self.tmpFile.write(helperFunctions)
-        ext_path = dirname(self.tmpFile.name)
-        (bn, ext) = splitext(basename(self.tmpFile.name))
-        pythonbridge = ALProxy("ALPythonBridge")
-        # ensure the location of the temporary file is somewhere python will look
-        pythonbridge.evalFull("import sys; sys.path.append('{path}')".format(path=ext_path))
-        # put the new functions into the global scope
-        pythonbridge.evalFull("from {bn} import {fns}".format(bn=bn, fns=helperFunctionNames))]]>
+            self.log(helperFunctions)
+            tmpFile = NamedTemporaryFile(suffix='.py', delete=False)
+            self.tmpFileName = tmpFile.name
+            self.log("Writing helper functions to {}".format(self.tmpFileName))
+            tmpFile.write(helperFunctions)
+            tmpFile.flush()
+            tmpFile.close()
+            ext_path = dirname(self.tmpFileName)
+            (bn, ext) = splitext(basename(self.tmpFileName))
+            pythonbridge = ALProxy("ALPythonBridge")
+            # ensure the location of the temporary file is somewhere python will look
+            pythonbridge.evalFull("import sys; sys.path.append('{path}')".format(path=ext_path))
+            # put the new functions into the global scope
+            pythonbridge.evalFull("from {bn} import {fns}".format(bn=bn, fns=helperFunctionNames))
+            self.log("created helper functions")]]>
 </content>
                             </script>
                             <Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" />
@@ -195,6 +204,10 @@ def getEmotionalLEDs():
 
     def onInput_onStart(self):
         tts = getEmotionalTTS()
+        #emotions = ALProxy('Emotion')
+        #adaptorName = emotions.getProxyName('ALTextToSpeech')
+        #self.log("adaptorName = " + adaptorName)
+        #tts = ALProxy(adaptorName)
         tts.say("Now I am speaking emotionally")
         self.onStopped() #activate the output of the box
 
