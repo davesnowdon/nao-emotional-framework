@@ -37,3 +37,11 @@ nosetests.xml
 
 #NAO
 build*
+
+main.cpp
+
+motion.cpp
+
+tts.cpp
+
+tts.h
