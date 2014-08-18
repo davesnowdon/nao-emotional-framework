@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <alcommon/albroker.h>
+#include <qi/log.hpp>
 
 Emotion::Emotion(boost::shared_ptr<AL::ALBroker> broker)
   : AL::ALModule(broker, EMOTION_MODULE)
@@ -42,9 +43,13 @@ Emotion::getProxyName(const std::string& proxyName)
   it = mModuleNames.find(proxyName);
   if (it == mModuleNames.end()) {
     /* module name not found in map so return name unchanged */
+    qiLogDebug("Emotion::getProxyName returning %s unchanged",
+               proxyName);
     return proxyName;
   } else {
     /* return name of adaptor for this module */
+    qiLogDebug("Emotion::getProxyName mapping %s to %s",
+               proxyName, it->second);
     return it->second;
   }
 }

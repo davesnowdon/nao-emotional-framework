@@ -26,3 +26,16 @@ Emotional expression should be easy for developers to include - a developer shou
 - Use ALMemory and the existing events mechanism as they are probably the best way to share the external representation of the model (for example have memory keys /emotion/valence & /emotion/arousal).
 - We may want to use multiple models so that we can model the state of the robot and that of other people. The actual models may not be of the same type but the external representation (eg VA or PAD) should be the same.
 - We assume an emotional model is not the same as personality. It is probably desirable that people can choose a personality for the robot and it should be possible for a single model to allow different personalities or for different personalities to have different underlying models. In other words end-users probably will not care that "witty sarcastic robot" is implemented using one emotional model and "sweet good natured robot" is implemented using another model. That should be possible.
+
+##Usage
+The framework comes with three choreographe projects:
+- **installer** - This is an interactive application that allows the native library that implements the emotional framework to be installed and uninstalled.
+- **box library** - This contains a box that installs the helper functions into the global python scope to make them available to all choreographe boxes
+- **demo** - A demo application that demonstrates how to replace the ALMotion, ALTextToSpeech and ALLeds proxies with the emotional adaptors.
+
+The helper functions are the following:
+- getEmotionalProxy(proxyName) - accepts an arbitrary module name and returns a proxy. Since Emotion.getProxyName() returns the proxy name unchanged if it is not wrapped by the framework it is safe to use getEmotionalProxy(proxyName) as a drop-in replacement for all invocations of ALProxy.
+- getEmotionalMotion() - returns a proxy to the adapted ALMotion
+- getEmotionalTTS() - returns a proxy to the adapted ALTextToSpeech
+- getEmotionalAnimatedTTS() - returns a proxy to the adapted ALAnimatedSpeech
+- getEmotionalLEDs() - returns a proxy to the adapted ALLeds

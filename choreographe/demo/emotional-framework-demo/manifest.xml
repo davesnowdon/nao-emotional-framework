@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<package version="0.1.0" uuid="emotional-framework-demo-f09d73">
+ <names>
+  <name lang="en_US">emotional-framework-demo</name>
+ </names>
+ <supportedLanguages>
+  <language>en_US</language>
+ </supportedLanguages>
+ <descriptionLanguages>
+  <language>en_US</language>
+ </descriptionLanguages>
+ <contents>
+  <behaviorContent path="demo">
+   <nature>solitary</nature>
+   <names>
+    <name lang="en_US">emotion-demo</name>
+   </names>
+   <descriptions>
+    <description lang="en_US">Demonstrate use of the emotional framework</description>
+   </descriptions>
+   <permissions/>
+  </behaviorContent>
+ </contents>
+</package>
