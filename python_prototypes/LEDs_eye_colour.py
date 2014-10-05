@@ -18,41 +18,56 @@ LED_eyes = None
 memory = None
 
 class LED_eyes_module(ALModule):
-	""" A simple module to change the eye LEDs colour to represent emotions.
+    """ A simple module to change the eye LEDs colour to represent emotions.
 
-	"""
-	def __init__(self, name):
-		ALModule.__init__(self, name)
+    """
+    def __init__(self, name):
+        ALModule.__init__(self, name)
 
-		# Create proxies for the instance.
-		self.tts = ALProxy("ALTextToSpeech")
-		self.leds = ALProxy("ALLeds")
+        # Create proxies for the instance.
+        self.tts = ALProxy("ALTextToSpeech")
+        self.leds = ALProxy("ALLeds")
 
-		# Run behaviour when a tactile touched.
-		global memory
-		memory = ALProxy("ALMemory")
-		memory.subscribeToEvent("TouchChanged", self.getName(), "emotive_eyes")
+        # Run behaviour when a tactile touched.
+        global memory
+        memory = ALProxy("ALMemory")
+        memory.subscribeToEvent("TouchChanged", self.getName(), "emotive_eyes")
 
-	def convertRGBToHex(self, list):
-	    if len(list) == 3:
-	        colour = 256 * 256 * list[0] + 256 * list[1] + list[2]
-	    else:
-	        raise ValueError("Not a valid RGB list")
-	    return colour
+    def convertRGBToHex(self, list):
+        if len(list) == 3:
+            colour = 256 * 256 * list[0] + 256 * list[1] + list[2]
+        else:
+            raise ValueError("Not a valid RGB list")
+        return colour
 
-	def emotive_eyes(self, *_args):
+    def emotive_eyes(self, *_args):
+        """ Change eye colour to express emotion.
+            Uses VA mapping based on a RYB (artists) colour wheel.
+            Colour picker: http://www.w3schools.com/tags/ref_colorpicker.asp
+            
+        """
 
-		RGB = [0, 255, 0]
-		hex_colour = self.convertRGBToHex(RGB)
-		durationList = [1.0]
+        self.universal_emotion_eye_colours = {"anger" : 0xFF0000,      # red
+                                        "disgust" : 0xFF6666,             # light red/pink
+                                        "fear" : 0xCC0066,                # magenta
+                                        "surprise" : 0xFF7519,            # light orange
+                                        "happiness" : 0xFFFF00,           # yellow
+                                        "thinking" : 0xADFF85,            # very light green
+                                        "sadness" : 0x5C005C              # dark purple
+                                        }
+        
+        durationList = [1.0]
 
-		memory.unsubscribeToEvent("TouchChanged", self.getName())
+        memory.unsubscribeToEvent("TouchChanged", self.getName())
 
-		self.leds.fadeRGB("FaceLeds", hex_colour, 1.0)
-		self.tts.say("Hello, world!")
-		self.leds.reset("FaceLeds")
+        for key, value in self.universal_emotion_eye_colours.iteritems():
+            self.leds.fadeRGB("FaceLeds", value, 1.0)
+            say_string = "I am feeling " + key
+            self.tts.say(say_string)
+            time.sleep(5)
+            self.leds.reset("FaceLeds")
 
-		memory.subscribeToEvent("TouchChanged", self.getName(), "emotive_eyes")
+        memory.subscribeToEvent("TouchChanged", self.getName(), "emotive_eyes")
 
 
 def main():
