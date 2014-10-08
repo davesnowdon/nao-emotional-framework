@@ -1,4 +1,4 @@
-""" nao emotional framework - prototype LED eye colours to represent emotions.
+""" nao emotional framework - prototype NAO motions to represent emotions.
 
 """
 
@@ -41,9 +41,9 @@ class motion_module(ALModule):
 
         memory.unsubscribeToEvent("TouchChanged", self.getName())
         
-        names = list()
-        times = list()
-        keys = list()
+        motion_names = list()
+        motion_times = list()
+        motion_keys = list()
 
         current_emotion = memory.getData("Emotion/Current")
         valence = current_emotion[0][0]
@@ -53,38 +53,37 @@ class motion_module(ALModule):
         # Head pitch has a range of approx +0.5 to -0.5 radians so divide normalised arousal value by 2.
         head_pitch = arousal / 2
 
-        names.append("HeadPitch")
-        times.append([1, 2, 3])
-        keys.append([0.0, head_pitch, 0.0])
-
+        motion_names.append("HeadPitch")
+        motion_times.append([1, 2, 3])
+        motion_keys.append([0.0, head_pitch, 0.0])
 
         # Stance (torso position + arms) - directly proportional to valence
         # Shoulders have a pitch of +2 to -2 radians.
         # Used in absolute mode, central pitch value is 1.4radians.
         shoulder_pitch = 1.4 - valence * 0.5
 
-        names.append("LShoulderPitch")
-        times.append([1, 2, 3])
-        keys.append([1.45726, shoulder_pitch, 1.45726])
+        motion_names.append("LShoulderPitch")
+        motion_times.append([1, 2, 3])
+        motion_keys.append([1.45726, shoulder_pitch, 1.45726])
 
-        names.append("RShoulderPitch")
-        times.append([1, 2, 3])
-        keys.append([1.4, shoulder_pitch, 1.4])
+        motion_names.append("RShoulderPitch")
+        motion_times.append([1, 2, 3])
+        motion_keys.append([1.4, shoulder_pitch, 1.4])
 
         # Ankles have a pitch of approx +0.9 to -1.1radians.
         # Used in absolute mode, central pitch value is 0.08radians.
         ankle_pitch = 0.08 - valence * 0.05
 
-        names.append("LAnklePitch")
-        times.append([1, 2, 3])
-        keys.append([0.08, ankle_pitch, 0.08])
+        motion_names.append("LAnklePitch")
+        motion_times.append([1, 2, 3])
+        motion_keys.append([0.08, ankle_pitch, 0.08])
 
-        names.append("RAnklePitch")
-        times.append([1, 2, 3])
-        keys.append([0.08, ankle_pitch, 0.08])
+        motion_names.append("RAnklePitch")
+        motion_times.append([1, 2, 3])
+        motion_keys.append([0.08, ankle_pitch, 0.08])
 
         # Might be better to use the reactive methods -  ALMotionProxy::setAngles().        
-        self.motion.angleInterpolation(names, keys, times, True)
+        self.motion.angleInterpolation(motion_names, motion_keys, motion_times, True)
         print "done"
 
         memory.subscribeToEvent("TouchChanged", self.getName(), "emotive_motion")
