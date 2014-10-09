@@ -1,6 +1,6 @@
 """ nao emotional framework - prototype emotional expression.
     + v simple demo of eyes, speech and stance (body position) parametrically linked to valence and arousal.
-    WORKING as demo code to run on computer.
+    + RUN THIS CODE ON ROBOT or ON COMPUTER with Kivy UI running in other Terminal window.
 
 """
 
@@ -38,7 +38,8 @@ class emotional_demo_module(ALModule):
 
         # Disable ALAutonomousLife to better demonstrate emotional actions.
         self.autonomous_life = ALProxy("ALAutonomousLife")
-        self.autonomous_life.setState("disabled")
+        if (self.autonomous_life.getState() != "disabled"):
+            self.autonomous_life.setState("disabled")
         time.sleep(1.0)
         self.motion.wakeUp()
 
@@ -201,25 +202,29 @@ def main():
 
     emotional_demo = emotional_demo_module("emotional_demo")
 
-    # set some ALMemory values
-    emotional_dictionary = {"happiness" : (1.00, 0.75),
-                            "sadness" : (-0.75, -0.75),
-                            "anger" : (-0.75, 0.75),
-                            "fear" : (-1.00, 0.00),
-                            "surprise" : (0.00, 0.50),
-                            "disgust" : (-0.4, 0.25),
-                            "thinking" : (0.25, 0.00)
-                             }
+    # # set some ALMemory values
+    # emotional_dictionary = {"happiness" : (1.00, 0.75),
+    #                         "sadness" : (-0.75, -0.75),
+    #                         "anger" : (-0.75, 0.75),
+    #                         "fear" : (-1.00, 0.00),
+    #                         "surprise" : (0.00, 0.50),
+    #                         "disgust" : (-0.4, 0.25),
+    #                         "thinking" : (0.25, 0.00)
+    #                          }
     try:
         while True:
-            for emotion_name, VA_pair in emotional_dictionary.iteritems():
-                valence = VA_pair[0]
-                arousal = VA_pair[1]
-                param1 = emotion_name
-                current_emotion = [(valence, arousal), ("valence_mood", "arousal_mood"), ("personality"), (param1, "param2")]
-                print "current_emotion (main): ", current_emotion
-                memory.insertData("Emotion/Current", current_emotion)
-                time.sleep(2.0)
+            # for emotion_name, VA_pair in emotional_dictionary.iteritems():
+            #     valence = VA_pair[0]
+            #     arousal = VA_pair[1]
+            #     param1 = emotion_name
+            #     current_emotion = [(valence, arousal), ("valence_mood", "arousal_mood"), ("personality"), (param1, "param2")]
+            #     print "current_emotion (main): ", current_emotion
+            #     memory.insertData("Emotion/Current", current_emotion)
+            #     time.sleep(2.0)
+            current_emotion = memory.getData("Emotion/Current")
+            print "Current emotion in memory: ", current_emotion
+            time.sleep(0.5)
+
     except KeyboardInterrupt:
         print
         print "Interrupted by user, shutting down"
