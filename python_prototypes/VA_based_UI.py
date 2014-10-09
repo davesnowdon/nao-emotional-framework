@@ -72,7 +72,7 @@ class emotionApp(App):
             key = "happiness"
             valence = emotional_dictionary[key][0]
             arousal = emotional_dictionary[key][1]
-            current_emotion = [(valence, arousal), ("valence_mood", "arousal_mood"), ("personality"), (key, "param2")]
+            current_emotion = [valence, arousal]
             memory.insertData("Emotion/Current", current_emotion)
             print "emotion: ", memory.getData("Emotion/Current")
 
@@ -80,7 +80,7 @@ class emotionApp(App):
             key = "anger"
             valence = emotional_dictionary[key][0]
             arousal = emotional_dictionary[key][1]
-            current_emotion = [(valence, arousal), ("valence_mood", "arousal_mood"), ("personality"), (key, "param2")]
+            current_emotion = [valence, arousal]
             memory.insertData("Emotion/Current", current_emotion)
             print "emotion: ", memory.getData("Emotion/Current")
 
@@ -88,7 +88,7 @@ class emotionApp(App):
             key = "surprise"
             valence = emotional_dictionary[key][0]
             arousal = emotional_dictionary[key][1]
-            current_emotion = [(valence, arousal), ("valence_mood", "arousal_mood"), ("personality"), (key, "param2")]
+            current_emotion = [valence, arousal]
             memory.insertData("Emotion/Current", current_emotion)
             print "emotion: ", memory.getData("Emotion/Current")
 
@@ -96,7 +96,7 @@ class emotionApp(App):
             key = "disgust"
             valence = emotional_dictionary[key][0]
             arousal = emotional_dictionary[key][1]
-            current_emotion = [(valence, arousal), ("valence_mood", "arousal_mood"), ("personality"), (key, "param2")]
+            current_emotion = [valence, arousal]
             memory.insertData("Emotion/Current", current_emotion)
             print "emotion: ", memory.getData("Emotion/Current")
 
@@ -104,7 +104,7 @@ class emotionApp(App):
             key = "thinking"
             valence = emotional_dictionary[key][0]
             arousal = emotional_dictionary[key][1]
-            current_emotion = [(valence, arousal), ("valence_mood", "arousal_mood"), ("personality"), (key, "param2")]
+            current_emotion = [valence, arousal]
             memory.insertData("Emotion/Current", current_emotion)
             print "emotion: ", memory.getData("Emotion/Current")
 
@@ -112,7 +112,7 @@ class emotionApp(App):
             key = "fear"
             valence = emotional_dictionary[key][0]
             arousal = emotional_dictionary[key][1]
-            current_emotion = [(valence, arousal), ("valence_mood", "arousal_mood"), ("personality"), (key, "param2")]
+            current_emotion = [valence, arousal]
             memory.insertData("Emotion/Current", current_emotion)
             print "emotion: ", memory.getData("Emotion/Current")
 
@@ -120,7 +120,7 @@ class emotionApp(App):
             key = "sadness"
             valence = emotional_dictionary[key][0]
             arousal = emotional_dictionary[key][1]
-            current_emotion = [(valence, arousal), ("valence_mood", "arousal_mood"), ("personality"), (key, "param2")]
+            current_emotion = [valence, arousal]
             memory.insertData("Emotion/Current", current_emotion)
             print "emotion: ", memory.getData("Emotion/Current")
             

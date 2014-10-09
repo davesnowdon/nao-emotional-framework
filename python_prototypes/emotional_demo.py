@@ -93,9 +93,10 @@ class emotional_demo_module(ALModule):
         # Get current emotional values and generic calcs.
         current_emotion = memory.getData("Emotion/Current")
         print "current_emotion (module): ", current_emotion
-        valence = current_emotion[0][0]
-        arousal = current_emotion[0][1]
-        emotion_name = current_emotion[3][0]
+        valence = current_emotion[0]
+        arousal = current_emotion[0]
+        # emotion_name = current_emotion[3][0]
+        emotion_name = 'calculate me dummy!'
         # Valence and arousal are normalised between -1 and 1, with an axis intersection at (0, 0). Convert axis intersection
         # to index.
         valence_index = (int(valence * 5) + 5)
@@ -218,7 +219,7 @@ def main():
             #     valence = VA_pair[0]
             #     arousal = VA_pair[1]
             #     param1 = emotion_name
-            #     current_emotion = [(valence, arousal), ("valence_mood", "arousal_mood"), ("personality"), (param1, "param2")]
+            #     current_emotion = [valence, arousal]
             #     print "current_emotion (main): ", current_emotion
             #     memory.insertData("Emotion/Current", current_emotion)
             #     time.sleep(2.0)
