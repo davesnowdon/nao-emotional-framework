@@ -1,6 +1,7 @@
 """ nao emotional framework - prototype emotional expression.
     + v simple demo of eyes, speech and stance (body position) parametrically linked to valence and arousal.
     + RUN THIS CODE ON ROBOT or ON COMPUTER with Kivy UI running in other Terminal window.
+    + change ALMemoryKey
 
 """
 
