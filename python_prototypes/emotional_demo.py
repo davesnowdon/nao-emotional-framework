@@ -118,9 +118,9 @@ class emotional_demo_module(ALModule):
         eye_duration = 2.0
 
         # Motion.
-        # Head pitch - directly proportional to arousal.
+        # Head pitch - inversely proportional to arousal.
         # Head pitch has a range of approx +0.5 to -0.5 radians so divide normalised arousal value by 2.
-        head_pitch = arousal / 2
+        head_pitch = arousal / 2 * -1
 
         motion_names.append("HeadPitch")
         motion_times.append([0.5, 2, 4])
