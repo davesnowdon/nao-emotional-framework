@@ -1,5 +1,6 @@
 """ nao emotional framework - prototype emotional expression.
     + v simple demo of eyes, speech and stance (body position) parametrically linked to valence and arousal.
+    WORKING as demo code to run on computer.
 
 """
 
