@@ -1,13 +1,11 @@
 """ nao emotional framework - prototype emotional expression.
     + v simple demo of eyes, speech and stance (body position) parametrically linked to valence and arousal.
     + RUN THIS CODE ON ROBOT or ON COMPUTER with Kivy UI running in other Terminal window.
-    + change ALMemoryKey
 
 """
 
 import sys
 import time
-import math
 
 #import numpy as np
 
@@ -47,38 +45,6 @@ class emotional_demo_module(ALModule):
 
         # Run behaviour when a tactile touched.
         memory.subscribeToEvent("TouchChanged", self.getName(), "express_current_emotion")
-
-    def calculate_emotion_name(self, valence, arousal):
-        ''' Calculate an approximate name for the emotion currently defined by valence & arousal.
-            Returns a string with the name.
-
-        ''' 
-
-        emotional_dictionary = {"happiness" : (1.00, 0.75),
-                            "sadness" : (-0.75, -0.75),
-                            "anger" : (-0.75, 0.75),
-                            "fear" : (-1.00, 0.00),
-                            "surprise" : (0.00, 0.50),
-                            "disgust" : (-0.4, 0.25),
-                            "thinking" : (0.25, 0.00)
-                             }
-        min_dist = 10
-        current_emotion_name = ''
-        for (n, (v, a)) in emotional_dictionary.iteritems():
-            vd = valence - v
-            ad = arousal -a
-            dist = math.sqrt(vd*vd + ad*ad)
-            if dist < min_dist:
-                min_dist = dist
-                current_emotion_name = n
-
-        if min_dist > 0.5:
-            current_emotion_name = ''', erm, I don't know how I am feeling, but I can't feel my feet either!'''
-
-        print current_emotion_name
-        return current_emotion_name
-
-
 
     def express_current_emotion(self, *_args):
         """ Expresses the current emotion from the current valence and arousal values in ALMemory.
@@ -126,10 +92,9 @@ class emotional_demo_module(ALModule):
         # Get current emotional values and generic calcs.
         current_emotion = memory.getData("Emotion/Current")
         print "current_emotion (module): ", current_emotion
-        valence = current_emotion[0]
-        arousal = current_emotion[1]
-        # emotion_name = current_emotion[3][0]
-        emotion_name = self.calculate_emotion_name(valence, arousal)
+        valence = current_emotion[0][0]
+        arousal = current_emotion[0][1]
+        emotion_name = current_emotion[3][0]
         # Valence and arousal are normalised between -1 and 1, with an axis intersection at (0, 0). Convert axis intersection
         # to index.
         valence_index = (int(valence * 5) + 5)
@@ -247,25 +212,18 @@ def main():
     #                         "thinking" : (0.25, 0.00)
     #                          }
     try:
-        old_valence = 0.0
-        old_arousal = 0.0
         while True:
             # for emotion_name, VA_pair in emotional_dictionary.iteritems():
             #     valence = VA_pair[0]
             #     arousal = VA_pair[1]
             #     param1 = emotion_name
-            #     current_emotion = [valence, arousal]
+            #     current_emotion = [(valence, arousal), ("valence_mood", "arousal_mood"), ("personality"), (param1, "param2")]
             #     print "current_emotion (main): ", current_emotion
             #     memory.insertData("Emotion/Current", current_emotion)
             #     time.sleep(2.0)
             current_emotion = memory.getData("Emotion/Current")
-            (new_valence, new_arousal) = current_emotion
-            if abs(old_valence-new_valence) > 0.01 or abs(old_arousal-new_arousal) > 0.01:
-                print "Current emotion in memory: ", current_emotion
-                emotional_demo.express_current_emotion()
-                old_valence = new_valence
-                old_arousal = new_arousal
-            time.sleep(0.1)
+            print "Current emotion in memory: ", current_emotion
+            time.sleep(0.5)
 
     except KeyboardInterrupt:
         print
