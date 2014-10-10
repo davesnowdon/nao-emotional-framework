@@ -36,6 +36,13 @@ class emotional_demo_module(ALModule):
         self.leds = ALProxy("ALLeds")
         self.motion = ALProxy("ALMotion")
 
+        # Write empty valence and arousal values to memory.
+        valence = 0
+        arousal = 0
+        param1 = 'null'
+        current_emotion = [(valence, arousal), ("valence_mood", "arousal_mood"), ("personality"), (param1, "param2")]
+        memory.insertData("Emotion/Current", current_emotion)
+
         # Disable ALAutonomousLife to better demonstrate emotional actions.
         self.autonomous_life = ALProxy("ALAutonomousLife")
         if (self.autonomous_life.getState() != "disabled"):
@@ -44,7 +51,7 @@ class emotional_demo_module(ALModule):
         self.motion.wakeUp()
 
         # Run behaviour when a tactile touched.
-        memory.subscribeToEvent("TouchChanged", self.getName(), "express_current_emotion")
+        memory.subscribeToEvent("VAChanged", self.getName(), "express_current_emotion")
 
     def express_current_emotion(self, *_args):
         """ Expresses the current emotion from the current valence and arousal values in ALMemory.
@@ -53,7 +60,7 @@ class emotional_demo_module(ALModule):
 
         # SETUP
         # Events.
-        memory.unsubscribeToEvent("TouchChanged", self.getName())
+        memory.unsubscribeToEvent("VAChanged", self.getName())
 
         # Motion.
         motion_names = list()
@@ -167,7 +174,7 @@ class emotional_demo_module(ALModule):
         # Reset speech parameters to nominal.
         self.tts.setParameter("pitchShift", 0)
         self.tts.setVolume(0.5)
-        memory.subscribeToEvent("TouchChanged", self.getName(), "express_current_emotion")
+        memory.subscribeToEvent("VAChanged", self.getName(), "express_current_emotion")
 
 
 def main():
@@ -212,18 +219,19 @@ def main():
     #                         "thinking" : (0.25, 0.00)
     #                          }
     try:
+        valence_old = 0
+        arousal_old = 0
         while True:
-            # for emotion_name, VA_pair in emotional_dictionary.iteritems():
-            #     valence = VA_pair[0]
-            #     arousal = VA_pair[1]
-            #     param1 = emotion_name
-            #     current_emotion = [(valence, arousal), ("valence_mood", "arousal_mood"), ("personality"), (param1, "param2")]
-            #     print "current_emotion (main): ", current_emotion
-            #     memory.insertData("Emotion/Current", current_emotion)
-            #     time.sleep(2.0)
+            
             current_emotion = memory.getData("Emotion/Current")
+            valence = current_emotion[0][0]
+            arousal = current_emotion[0][1]
+            if abs(valence - valence_old) > 1e-10 or abs(arousal - arousal_old) > 1e-10:
+                memory.raiseEvent("VAChanged", 1)
             print "Current emotion in memory: ", current_emotion
-            time.sleep(0.5)
+            time.sleep(0.1)
+            valence_old = valence
+            arousal_old = arousal
 
     except KeyboardInterrupt:
         print
