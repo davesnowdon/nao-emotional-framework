@@ -1,7 +1,7 @@
 """ nao emotional framework - prototype emotional expression.
     + v simple demo of eyes, speech and stance (body position) parametrically linked to valence and arousal.
     + RUN THIS CODE ON ROBOT or ON COMPUTER with Kivy UI running in other Terminal window.
-    + change ALMemoryKey
+    + change ALMemoryKey, USES DIFFERENT ALMemory KEY FROM STANDALONE
 
 """
 
@@ -38,6 +38,12 @@ class emotional_demo_module(ALModule):
         self.leds = ALProxy("ALLeds")
         self.motion = ALProxy("ALMotion")
 
+        # Write empty valence and arousal values to memory.
+        valence = 0
+        arousal = 0
+        current_emotion = [valence, arousal]
+        memory.insertData("Emotion/Current", current_emotion)
+
         # Disable ALAutonomousLife to better demonstrate emotional actions.
         self.autonomous_life = ALProxy("ALAutonomousLife")
         if (self.autonomous_life.getState() != "disabled"):
@@ -46,7 +52,7 @@ class emotional_demo_module(ALModule):
         self.motion.wakeUp()
 
         # Run behaviour when a tactile touched.
-        memory.subscribeToEvent("TouchChanged", self.getName(), "express_current_emotion")
+        memory.subscribeToEvent("VAChanged", self.getName(), "express_current_emotion")
 
     def calculate_emotion_name(self, valence, arousal):
         ''' Calculate an approximate name for the emotion currently defined by valence & arousal.
@@ -87,7 +93,7 @@ class emotional_demo_module(ALModule):
 
         # SETUP
         # Events.
-        memory.unsubscribeToEvent("TouchChanged", self.getName())
+        memory.unsubscribeToEvent("VAChanged", self.getName())
 
         # Motion.
         motion_names = list()
@@ -202,7 +208,7 @@ class emotional_demo_module(ALModule):
         # Reset speech parameters to nominal.
         self.tts.setParameter("pitchShift", 0)
         self.tts.setVolume(0.5)
-        memory.subscribeToEvent("TouchChanged", self.getName(), "express_current_emotion")
+        memory.subscribeToEvent("VAChanged", self.getName(), "express_current_emotion")
 
 
 def main():
@@ -247,25 +253,40 @@ def main():
     #                         "thinking" : (0.25, 0.00)
     #                          }
     try:
-        old_valence = 0.0
-        old_arousal = 0.0
+        # old code from Dave version
+        # old_valence = 0.0
+        # old_arousal = 0.0
+        # while True:
+        #     # for emotion_name, VA_pair in emotional_dictionary.iteritems():
+        #     #     valence = VA_pair[0]
+        #     #     arousal = VA_pair[1]
+        #     #     param1 = emotion_name
+        #     #     current_emotion = [valence, arousal]
+        #     #     print "current_emotion (main): ", current_emotion
+        #     #     memory.insertData("Emotion/Current", current_emotion)
+        #     #     time.sleep(2.0)
+        #     current_emotion = memory.getData("Emotion/Current")
+        #     (new_valence, new_arousal) = current_emotion
+        #     if abs(old_valence-new_valence) > 0.01 or abs(old_arousal-new_arousal) > 0.01:
+        #         print "Current emotion in memory: ", current_emotion
+        #         emotional_demo.express_current_emotion()
+        #         old_valence = new_valence
+        #         old_arousal = new_arousal
+        #     time.sleep(0.1)
+
+        # new event raising code
+        valence_old = 0
+        arousal_old = 0
         while True:
-            # for emotion_name, VA_pair in emotional_dictionary.iteritems():
-            #     valence = VA_pair[0]
-            #     arousal = VA_pair[1]
-            #     param1 = emotion_name
-            #     current_emotion = [valence, arousal]
-            #     print "current_emotion (main): ", current_emotion
-            #     memory.insertData("Emotion/Current", current_emotion)
-            #     time.sleep(2.0)
+            
             current_emotion = memory.getData("Emotion/Current")
-            (new_valence, new_arousal) = current_emotion
-            if abs(old_valence-new_valence) > 0.01 or abs(old_arousal-new_arousal) > 0.01:
-                print "Current emotion in memory: ", current_emotion
-                emotional_demo.express_current_emotion()
-                old_valence = new_valence
-                old_arousal = new_arousal
+            (valence, arousal) = current_emotion
+            if abs(valence - valence_old) > 1e-10 or abs(arousal - arousal_old) > 1e-10:
+                memory.raiseEvent("VAChanged", 1)
+            print "Current emotion in memory: ", current_emotion
             time.sleep(0.1)
+            valence_old = valence
+            arousal_old = arousal
 
     except KeyboardInterrupt:
         print
