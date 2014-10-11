@@ -71,6 +71,8 @@ EmotionalAnimatedSpeech::EmotionalAnimatedSpeech(boost::shared_ptr<AL::ALBroker>
   addParam("tagsToAnimations", "");
   BIND_METHOD(EmotionalAnimatedSpeech::declareTagForAnimations);
 
+  // TODO add error checking for proxy creation
+  animatedSpeechProxy = ALAnimatedSpeechProxyPtr(new AL::ALAnimatedSpeechProxy(broker));
 }
 
 EmotionalAnimatedSpeech::~EmotionalAnimatedSpeech()
@@ -85,44 +87,57 @@ EmotionalAnimatedSpeech::init()
 void
 EmotionalAnimatedSpeech::say(const std::string& text)
 {
+  animatedSpeechProxy->say(text);
 }
 
 void
 EmotionalAnimatedSpeech::say(const std::string& text, const AL::ALValue& configuration)
 {
+  // TODO The Aldebaran proxy does not seem to implement this overload
+  animatedSpeechProxy->say(text);
 }
 
 void
 EmotionalAnimatedSpeech::setBodyLanguageMode(unsigned int bodyLanguageMode)
 {
+  animatedSpeechProxy->setBodyLanguageMode(bodyLanguageMode);
 }
 
 void
 EmotionalAnimatedSpeech::setBodyLanguageModeFromStr(const std::string& stringBodyLanguageMode)
 {
+  animatedSpeechProxy->setBodyLanguageModeFromStr(stringBodyLanguageMode);
 }
 
 unsigned int
 EmotionalAnimatedSpeech::getBodyLanguageMode()
 {
+  return animatedSpeechProxy->getBodyLanguageMode();
 }
 
-unsigned int
+std::string
 EmotionalAnimatedSpeech::getBodyLanguageModeToStr()
 {
+  return animatedSpeechProxy->getBodyLanguageModeToStr();
 }
 
 void
 EmotionalAnimatedSpeech::addTagsToWords(const AL::ALValue& tagsToWords)
 {
+  //TODO Does not seem to be implemented in Aldebaran proxy
+  //animatedSpeechProxy->addTagsToWords(tagsToWords);
 }
 
 void
 EmotionalAnimatedSpeech::declareAnimationsPackage(const std::string& animationsPackage)
 {
+  //TODO Does not seem to be implemented in Aldebaran proxy
+  //animatedSpeechProxy->declareAnimationsPackage(animationsPackage);
 }
 
 void
 EmotionalAnimatedSpeech::declareTagForAnimations(const AL::ALValue& tagsToAnimations)
 {
+  //TODO Does not seem to be implemented in Aldebaran proxy
+  //animatedSpeechProxy->declareTagForAnimations(tagsToAnimations);
 }

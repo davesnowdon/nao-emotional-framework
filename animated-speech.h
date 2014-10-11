@@ -3,6 +3,7 @@
 
 # include <iostream>
 # include <alcommon/almodule.h>
+# include <alproxies/alanimatedspeechproxy.h>
 
 namespace AL
 {
@@ -39,13 +40,17 @@ public:
 
     unsigned int getBodyLanguageMode();
 
-    unsigned int getBodyLanguageModeToStr();
+    std::string getBodyLanguageModeToStr();
 
     void addTagsToWords(const AL::ALValue& tagsToWords);
 
     void declareAnimationsPackage(const std::string& animationsPackage);
 
     void declareTagForAnimations(const AL::ALValue& tagsToAnimations);
-  
+
+    typedef boost::shared_ptr<AL::ALAnimatedSpeechProxy> ALAnimatedSpeechProxyPtr;
+
+private:
+    ALAnimatedSpeechProxyPtr animatedSpeechProxy;
 };
 #endif // EMOTIONAL_ANIMATED_SPEECH_H
