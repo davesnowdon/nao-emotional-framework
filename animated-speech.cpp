@@ -18,12 +18,30 @@ EmotionalAnimatedSpeech::EmotionalAnimatedSpeech(boost::shared_ptr<AL::ALBroker>
 
   functionName("say", getName(), "Say the annotated text given in parameter and animate it with animations inserted in the text. The current Animated Speech configuration will be used.");
   addParam("text", "");
-  BIND_METHOD(EmotionalAnimatedSpeech::say);
+  AL::completeAndCheck<
+    EmotionalAnimatedSpeech,
+    const std::string&,
+    void>
+    (&EmotionalAnimatedSpeech::say, getCurrentMethodDescription());
+  bindMethodOverload(AL::createFunctor<EmotionalAnimatedSpeech,
+                     std::string,
+                     void>
+  (this, &EmotionalAnimatedSpeech::say));
 
   functionName("say", getName(), "Say the annotated text given in parameter and animate it with animations inserted in the text. The given configuration will be used. For the unset parameters, their default value will be used.");
   addParam("text", "");
   addParam("configuration", "");
-  BIND_METHOD(EmotionalAnimatedSpeech::say);
+  AL::completeAndCheck<
+    EmotionalAnimatedSpeech,
+    const std::string&,
+    const AL::ALValue&,
+    void>
+    (&EmotionalAnimatedSpeech::say, getCurrentMethodDescription());
+  bindMethodOverload(AL::createFunctor<EmotionalAnimatedSpeech,
+                     std::string,
+                     AL::ALValue,
+                     void>
+  (this, &EmotionalAnimatedSpeech::say));
 
   functionName("setBodyLanguageMode", getName(), "Set the current body language mode.");
   addParam("bodyLanguageMode", "");
@@ -59,53 +77,52 @@ EmotionalAnimatedSpeech::~EmotionalAnimatedSpeech()
 {
 }
 
-void 
+void
 EmotionalAnimatedSpeech::init()
 {
 }
 
-void 
+void
 EmotionalAnimatedSpeech::say(const std::string& text)
 {
 }
 
-void 
+void
 EmotionalAnimatedSpeech::say(const std::string& text, const AL::ALValue& configuration)
 {
 }
 
-void 
+void
 EmotionalAnimatedSpeech::setBodyLanguageMode(unsigned int bodyLanguageMode)
 {
 }
 
-void 
+void
 EmotionalAnimatedSpeech::setBodyLanguageModeFromStr(const std::string& stringBodyLanguageMode)
 {
 }
 
-unsigned int 
+unsigned int
 EmotionalAnimatedSpeech::getBodyLanguageMode()
 {
 }
 
-unsigned int 
+unsigned int
 EmotionalAnimatedSpeech::getBodyLanguageModeToStr()
 {
 }
 
-void 
+void
 EmotionalAnimatedSpeech::addTagsToWords(const AL::ALValue& tagsToWords)
 {
 }
 
-void 
+void
 EmotionalAnimatedSpeech::declareAnimationsPackage(const std::string& animationsPackage)
 {
 }
 
-void 
+void
 EmotionalAnimatedSpeech::declareTagForAnimations(const AL::ALValue& tagsToAnimations)
 {
 }
-
