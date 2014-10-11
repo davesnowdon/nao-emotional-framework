@@ -37,15 +37,4 @@ nosetests.xml
 
 #NAO
 build*
-<<<<<<< HEAD
-
-main.cpp
-
-motion.cpp
-
-tts.cpp
-
-tts.h
-=======
 releases
->>>>>>> 5a3ae097eaf77500fe56335360a870aa03c48f20

@@ -30,45 +30,6 @@ public:
    * This is called right after the module has been loaded
    */
   virtual void init();
-
-<<<<<<< HEAD
-    std::vector<std::string> getAvailableLanguages();
-
-    std::vector<std::string> getAvailableVoices();
-
-    std::string getLanguage();
-
-    float getParameter(const std::string& parameter);
-
-    std::vector<std::string> getSupportedLanguages();
-
-    std::string getVoice();
-
-    float getVolume();
-
-    void loadVoicePreference(const std::string& preferencesFileSuffix);
-
-    std::string locale();
-
-    void say(const std::string& stringToSay);
-
-    void say(const std::string& stringToSay, const std::string& language);
-
-    void sayToFile(const std::string& stringToSay, const std::string& fileName);
-
-    void setLanguage(const std::string& language);
-
-    void setLanguageDefaultVoice(const std::string& language, const std::string& voice);
-
-    void setParameter(const std::string& parameter, const float& value);
-
-    void setVoice(const std::string& voiceID);
-
-    void setVolume(const float& volume);
-
-    void stopAll();
-
-=======
     /// <summary>
     /// Outputs the languages installed on the system.
     /// </summary>
@@ -190,6 +151,5 @@ public:
 
 private:
     ALTextToSpeechProxyPtr ttsProxy;
->>>>>>> 1454d147b089f4a8e9b0c7a1fe1ee8be0de24851
 };
 #endif // EMOTIONAL_TTS_H

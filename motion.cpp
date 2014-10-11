@@ -92,12 +92,6 @@ EmotionalMotion::EmotionalMotion(boost::shared_ptr<AL::ALBroker> broker)
   // Locomotion control API
 
   functionName("move", getName(), "There are two overloads of this function. Makes the robot move at the given velocity, expressed in FRAME_ROBOT. This is a non-blocking call.");
-<<<<<<< HEAD
-  addParam("x", "");
-  addParam("y", "");
-  addParam("theta", "");
-  BIND_METHOD((void (EmotionalMotion::*)(const float&, const float&, const float&)) &EmotionalMotion::move);
-=======
   addParam("x", "The velocity along x axis [m.s-1].");
   addParam("y", "The velocity along y axis [m.s-1].");
   addParam("theta", "The velocity around z axis [rd.s-1].");
@@ -114,16 +108,12 @@ EmotionalMotion::EmotionalMotion(boost::shared_ptr<AL::ALBroker> broker)
                      float,
                      void>
   (this, &EmotionalMotion::move));
->>>>>>> 1454d147b089f4a8e9b0c7a1fe1ee8be0de24851
 
   functionName("move", getName(), "Makes the robot move at the given velocity, expressed in FRAME_ROBOT, with a move configuration. This is a non-blocking call.");
   addParam("x", "The velocity along x axis [m.s-1].");
   addParam("y", "The velocity along y axis [m.s-1].");
   addParam("theta", "The velocity around z axis [rd.s-1].");
   addParam("moveConfig", "");
-<<<<<<< HEAD
-  BIND_METHOD((void (EmotionalMotion::*)(float, float, float, AL::ALValue)) &EmotionalMotion::move);
-=======
   AL::completeAndCheck<EmotionalMotion,
                        const float&,
                        const float&,
@@ -138,7 +128,6 @@ EmotionalMotion::EmotionalMotion(boost::shared_ptr<AL::ALBroker> broker)
                      AL::ALValue,
                      void>
   (this, &EmotionalMotion::move));
->>>>>>> 1454d147b089f4a8e9b0c7a1fe1ee8be0de24851
 
   functionName("moveToward", getName(), "There are two overloads of this function. Makes the robot move at the given normalized velocity, expressed in FRAME_ROBOT. This is a non-blocking call.");
   addParam("x", "");
@@ -162,9 +151,6 @@ EmotionalMotion::EmotionalMotion(boost::shared_ptr<AL::ALBroker> broker)
   addParam("y", "");
   addParam("theta", "");
   addParam("moveConfig", "");
-<<<<<<< HEAD
-  BIND_METHOD(EmotionalMotion::name);
-=======
   AL::completeAndCheck<EmotionalMotion,
                        const float&,
                        const float&,
@@ -179,7 +165,6 @@ EmotionalMotion::EmotionalMotion(boost::shared_ptr<AL::ALBroker> broker)
                      AL::ALValue,
                      void>
   (this, &EmotionalMotion::moveToward));
->>>>>>> 1454d147b089f4a8e9b0c7a1fe1ee8be0de24851
 
   functionName("moveTo", getName(), "Makes the robot move to the given pose in the ground plane, relative to FRAME_ROBOT, with custom move configuration. This is a blocking call.");
   addParam("x", "");
@@ -614,12 +599,8 @@ EmotionalMotion::EmotionalMotion(boost::shared_ptr<AL::ALBroker> broker)
   functionName("killAll", getName(), "Kills all tasks.");
   BIND_METHOD(EmotionalMotion::killAll);
 
-<<<<<<< HEAD
-
-=======
   // TODO add error checking for proxy creation
   motionProxy = ALMotionProxyPtr(new AL::ALMotionProxy(broker));
->>>>>>> 1454d147b089f4a8e9b0c7a1fe1ee8be0de24851
 }
 
 EmotionalMotion::~EmotionalMotion()
@@ -627,11 +608,7 @@ EmotionalMotion::~EmotionalMotion()
 }
 
 void
-<<<<<<< HEAD
-EmotionalMotion::EmotionalMotion::init()
-=======
 EmotionalMotion::init()
->>>>>>> 1454d147b089f4a8e9b0c7a1fe1ee8be0de24851
 {
 }
 
@@ -730,11 +707,7 @@ EmotionalMotion::move(const float& x, const float& y, const float& theta)
 }
 
 void
-<<<<<<< HEAD
-EmotionalMotion::move(const float& x, const float& y, const float& theta, const AL::ALValue moveConfig)
-=======
 EmotionalMotion::move(const float& x, const float& y, const float& theta, const AL::ALValue& moveConfig)
->>>>>>> 1454d147b089f4a8e9b0c7a1fe1ee8be0de24851
 {
   motionProxy->move(x, y, theta, moveConfig);
 }
@@ -746,11 +719,7 @@ EmotionalMotion::moveToward(const float& x, const float& y, const float& theta)
 }
 
 void
-<<<<<<< HEAD
-EmotionalMotion::moveToward(const float& x, const float& y, const float& theta, const AL::ALValue moveConfig)
-=======
 EmotionalMotion::moveToward(const float& x, const float& y, const float& theta, const AL::ALValue& moveConfig)
->>>>>>> 1454d147b089f4a8e9b0c7a1fe1ee8be0de24851
 {
   motionProxy->moveToward(x, y, theta, moveConfig);
 }
@@ -961,31 +930,19 @@ EmotionalMotion::wbEnableEffectorOptimization(const std::string& effectorName, c
 // Self-collision avoidance API
 
 bool
-<<<<<<< HEAD
-EmotionalMotion::setCollisionProtectionEnabled(const std::string& ChainName, const bool& Enable)
-=======
 EmotionalMotion::setCollisionProtectionEnabled(const std::string& chainName, const bool& enable)
->>>>>>> 1454d147b089f4a8e9b0c7a1fe1ee8be0de24851
 {
   return motionProxy->setCollisionProtectionEnabled(chainName, enable);
 }
 
 bool
-<<<<<<< HEAD
-EmotionalMotion::getCollisionProtectionEnabled(const std::string& ChainName)
-=======
 EmotionalMotion::getCollisionProtectionEnabled(const std::string& chainName)
->>>>>>> 1454d147b089f4a8e9b0c7a1fe1ee8be0de24851
 {
   return motionProxy->getCollisionProtectionEnabled(chainName);
 }
 
 std::string
-<<<<<<< HEAD
-EmotionalMotion::isCollision(const std::string& ChainName)
-=======
 EmotionalMotion::isCollision(const std::string& chainName)
->>>>>>> 1454d147b089f4a8e9b0c7a1fe1ee8be0de24851
 {
   return motionProxy->isCollision(chainName);
 }
@@ -1061,11 +1018,7 @@ EmotionalMotion::getFallManagerEnabled()
 
 // Smart Stiffness API
 
-<<<<<<< HEAD
-bool
-=======
 void
->>>>>>> 1454d147b089f4a8e9b0c7a1fe1ee8be0de24851
 EmotionalMotion::setSmartStiffnessEnabled(const bool& enable)
 {
   motionProxy->setSmartStiffnessEnabled(enable);
