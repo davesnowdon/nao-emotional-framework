@@ -50,4 +50,27 @@ The framework uses the following ALMemory structure under the top-level "Emotion
 	+ Emotion/Personality -> TBD
 	+ Emotion/Parameters/EmotionsEnabled true/false (default = true)
 	+ Emotion/Parameters/LEDS/RastaEyesEnabled true/false (defaut = false)
-    
+
+## Building
+In order to build the emotional framework you need to have at least the following installed
+- [cmake](http://www.cmake.org/)
+- [qibuild](http://doc.aldebaran.com/qibuild/)
+- [NAOqi SDK](https://community.aldebaran.com/en/resources/software) - in order to build the framework to run on your computer
+- [NAOqi cross toolchain](https://community.aldebaran.com/en/resources/software) -  in order to build the framework to run on the robot
+
+There are two helper scripts in the top-level of the project:
+- make-local.sh - this configures qibuild to build the project to run locally (on the robot)
+- make-remote.sh - this configures qibuild to make the project for remote (off robot) execution and then builds the project
+
+These scripts require that the following environment variables are set:
+- ROBOT_TOOLCHAIN - the name of the qibuild toolchain to use to build code to run on the robot
+- PC_TOOLCHAIN - the name of the qibuild toolchain to use to build code to run on your computer (off robot)
+
+To install the framework on the robot
+- run make-local.sh - this builds the native components and copies them to the choreographe installer  project in the choreographe/installer directory
+- open the installer project in choreographe and run it on your robot. If the installer finds the framework is already installed it will allow you to uninstall it. Currently the installer does not support upgrades so you'll need to do an uninstall followed by a re-install to upgrade to a newer version of the library
+
+To run the framework off robot
+- run make-remote.sh
+- you can find the built components in build-${PC_TOOLCHAIN}/sdk/bin
+- you can then run nao-emotional-framework --pip <robot address> You can also use the --pport option to specify the port to use if you need to use a port that is not the default 9559
