@@ -1,3 +1,6 @@
+NOTE: This is a work-in-progress and as such is NOT READY FOR USE
+
+
 nao-emotional-framework
 =======================
 
